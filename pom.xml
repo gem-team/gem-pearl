@@ -7,7 +7,7 @@
     <version>1.1.0</version>
     <name>gem</name>
     <packaging>pom</packaging>
-    <description>parent project for gemframe</description>
+    <description>parent  project for gemframe</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
