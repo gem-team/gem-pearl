@@ -124,18 +124,6 @@ gem
 #### 系统截图
 
 - 开发中...
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/202419_01b37b94_1388237.png "在这里输入图片标题")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211111_9b025f61_1388237.png "首页1.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211120_5a5c3dd2_1388237.png "菜单.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211132_ca350253_1388237.png "添加.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211141_086a5606_1388237.png "角色.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211148_ee74af1e_1388237.png "角色编辑.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211159_2de4d00f_1388237.png "用户添加.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211205_31804d6c_1388237.png "用户编辑.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211221_c0cec051_1388237.png "部门编辑.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211235_29bb2083_1388237.png "三级菜单.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211249_2e104914_1388237.png "社区.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0112/211303_b51d4257_1388237.png "外部网站.png")
 
 #### 使用说明
 
