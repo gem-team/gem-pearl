@@ -1,0 +1,330 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+</head>
+<body style="border-radius: 8px;width: 690px;overflow: hidden">
+    <div class="warrant_nav">
+        <ul>
+            <li class="warrant_active"><span class="step">1</span>基本信息<span class="chevron"></span></li>
+            <li><span class="step">2</span>归属部门<span class="chevron"></span></li>
+            <li><span class="step">3</span>关联部门<span class="chevron"></span></li>
+            <li><span class="step">4</span>分配角色<span class="chevron"></span></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <form id="form" onsubmit="return false">
+        <div class="warrant_main">
+            <div class="tree_left" style="display: block">
+                <div class="top">
+                    <div>
+                        <div class="top_out">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>用户帐号<span class="span">*</span></td>
+                                    <td><input type="text" id="username" name="username" required   minlength ="2"></td>
+                                    <td>用户密码<span class="span">*</span></td>
+                                    <td>
+                                        <input type="password" id="password" name="password" class="long_text" value="123456" placeholder="默认123456" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>员工工号<span class="span">*</span></td>
+                                    <td><input type="number" id="worknum" name="worknum" required maxlength="5"></td>
+                                    <td>所在岗位<span class="span"></span></td>
+                                    <td>
+                                        <select id="post" name="post">
+                                            <option value="1">初级人员</option>
+                                            <option value="2">中级人员</option>
+                                            <option value="3">高级人员</option>
+                                            <option value="4">领导班子</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>员工姓名<span class="span">*</span></td>
+                                    <td><input type="text" id="realname" name="realname" required></td>
+                                    <td>员工性别<span class="span"></span></td>
+                                    <td>
+                                        <select id="sex" name="sex">
+                                            <option value="0">男</option>
+                                            <option value="1">女</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>出生年月<span class="span"></span></td>
+                                    <td><input type="date" id="birthday" name="birthday"></td>
+                                    <td>户口籍贯<span class="span"></span></td>
+                                    <td>
+                                        <select id="input_province"  name="province"class="td_select">
+                                            <option value="">-请选择-</option>
+                                        </select>
+                                        <select id="input_city" name="city" class="td_select">
+                                            <option value=""></option>
+                                        </select>
+                                        <select id="input_area" name="area" class="td_select">
+                                            <option value=""></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>通讯地址<span class="span">*</span></td>
+                                    <td colspan="3">
+                                        <input type="text" id="address" name="address" class="block" required minlength="5" maxlength="50">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>手机号码<span class="span">*</span></td>
+                                    <td><input type="tel" id="phone" name="phone" required></td>
+                                    <td>座机号码<span class="span"></span></td>
+                                    <td><input type="text" id="tel" name="tel"></td>
+                                </tr>
+                                <tr>
+                                    <td>电子邮箱<span class="span">*</span></td>
+                                    <td><input type="email" id="email" name="email" required></td>
+                                    <td>QQ/微信<span class="span"></span></td>
+                                    <td><input type="text" id="qq" name="qq"></td>
+                                </tr>
+                                <tr>
+                                    <td>其他备注<span class="span"></span></td>
+                                    <td colspan = "8" style="text-align: left">
+                                        <textarea id="desp" name="desp"></textarea>
+                                    </td>
+                                </tr>
+                                <!--                        <tr>-->
+                                <!--                            <td>归属部门<span class="span"></span></td>-->
+                                <!--                            <td>-->
+                                <!--                                <div class="dropdown">-->
+                                <!--                                    <input class="dropdown_select"  id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" placeholder="&#45;&#45;请选择&#45;&#45;" >-->
+                                <!--                                    <span class="caret"></span>-->
+                                <!--                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 247px">-->
+                                <!--                                        <div class=" order_ztree l_left organize_ztree" style="width: 100%;background-color: #fff;padding-bottom: 10px;height: 240px;overflow: auto;">-->
+                                <!--                                            <ul id="treeDemo" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>-->
+
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </td>-->
+                                <!--                            <td>授予角色<span class="span"></span></td>-->
+                                <!--                            <td>-->
+                                <!--                                <select  class="multiselect" multiple="multiple">-->
+                                <!--                                    <option>全部</option>-->
+                                <!--                                    <option>超级管理员</option>-->
+                                <!--                                    <option>普通管理员</option>-->
+                                <!--                                </select>-->
+                                <!--                            </td>-->
+                                <!--                        </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left"></div>
+                    <div class="r_right but_p">
+                        <button id="btn_next1" class="but_next" type="button" onclick="nextTab(1)">下一步</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tree_left">
+                <div class="tree_left_top">
+                    <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                        <p><ul id="userformTree" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+                        <input type="hidden" id="dept_id" name="dept_id" value="0" />
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left"></div>
+                    <div class="r_right but_p">
+                        <button class="but_previous" type="button" onclick="nextTab(0)">上一步</button>
+                        <button class="but_next" type="button" onclick="nextTab(2)">下一步</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tree_left">
+                <div class="tree_left_top">
+                    <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                        <div class="notice_nav r_left">
+                            <div style="margin-left: 30px;">
+                                <a class="btn btn-default" onclick="CheckAllNodes('userformTree2')"><span class="glyphicon glyphicon-plus"></span>全选</a>
+                                <a class="btn btn-default" onclick="CancelAllNodes('userformTree2')"><span class="glyphicon glyphicon-remove"></span>全消</a>
+                            </div>
+                        </div>
+                        <p><ul id="userformTree2" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left"></div>
+                    <div class="r_right but_p">
+                        <button class="but_previous" type="button" onclick="nextTab(1)">上一步</button>
+                        <button class="but_next" type="button" onclick="nextTab(3)">下一步</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tree_left">
+                暂无
+                <div class="notice_bot">
+                    <div class="l_left">
+                        <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+                    </div>
+                    <div class="r_right but_p">
+                        <button class="but_previous" type="button" onclick="nextTab(2)">上一步</button>
+                        <button class="but_save" type="button" onclick="addData()">保存</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div th:replace="common/links::common_script"></div>
+    <div th:replace="common/links::table_script"></div>
+    <div th:replace="common/links::ztree_script"></div>
+    <div th:replace="common/links::multiselect_script"></div>
+    <script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/custom/address.js}"></script>
+    <div th:replace="common/links::validate_script"></div>
+    <script>
+        $(function () {
+            // tabNav();
+            // clickTab();
+
+            $('.multiselect').multiselect({
+                buttonClass: 'btn',
+                buttonWidth: 'auto',
+                buttonText: function(options) {
+                    if (options.length == 0) {
+                        return '请选择角色';
+                    }
+                    else {
+                        var selected = '';
+                        options.each(function() {
+                            selected += $(this).text() + ',';
+                        });
+                        return selected.substr(0, selected.length -1) ;
+                    }
+                },
+            });
+
+        });
+
+
+        // 遍历nav
+        function tabNav(){
+            $(".warrant_nav ul li").each(function(index){
+                $(this).click(function(){
+                    $(".warrant_nav ul li").removeClass("warrant_active");
+                    $(this).addClass("warrant_active");
+                    $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+                })
+            })
+        }
+        
+        function clickTab(){
+            $("#name").click(function(){
+                $("#tree").show();
+            })
+        }
+        
+        function nextTab(index) {
+
+            //第一步：校验表单
+            if($("#form").valid()){
+                var count = 0;
+                $(".warrant_nav ul li").each(function(){
+                    if(count == index){
+                        if(index == 2){
+                            //第二步：校验归属部门选中并且把选中值赋予input
+                            var dept = GetCheckedAll("userformTree");
+                            if(dept == null || dept == ""){
+                                layer.alert("请选择归属部门！");
+                                return;
+                            }else{
+                                $("#dept_id").val(dept[0].id);
+                            }
+                        }
+                        if(index == 3){
+                            //第三步：校验关联部门选中并且生成list=[{"dept_id":1},{"dept_id":1},....]
+                            var depts = GetCheckedAll("userformTree2");
+                            if(depts == null || depts.length == 0){
+                                layer.alert("请选择关联部门！");
+                                return;
+                            }else{
+                                var deptArr = [];
+                                for (var i = 0; i < depts.length; i++) {
+                                    var dept = new Object();
+                                    dept.name = depts[i].name;
+                                    dept.id = depts[i].id;
+                                    dept.pid = depts[i].pid;
+                                    deptArr.push(dept);
+                                }
+                                var formData = $('#form').serializeObject();
+                                formData.depts = deptArr;
+                                ajaxData = JSON.stringify(formData);
+                            }
+                        }
+                        $(".warrant_nav ul li").removeClass("warrant_active");
+                        $(this).addClass("warrant_active");
+                        $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+                    }
+                    count++;
+                });
+            }
+        }
+        var ajaxData = JSON.stringify($('#form').serializeObject());
+        function addData() {
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: ajaxData,
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType:"application/json;charset=UTF-8",
+                success: function(res) {
+                    console.log("res.code=="+res.code);
+                    console.log("res=="+JSON.stringify(res));
+                    if (res.code == "0") {
+                        if($("#btn_save_close").is(':checked')){
+                            alert("保存成功",Colse);
+                        }
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                }
+            })
+        }
+
+
+        function Colse() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    </script>
+</body>
+</html>

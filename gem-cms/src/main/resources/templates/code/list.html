@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>首页 | GemFrame开源权限管理系统v1.0.0</title>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <div th:replace="common/links::layui_links"></div>
+</head>
+<body>
+<div class="demoTable layui-card-header">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="name" name="name" placeholder="表名">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <button class="layui-btn" data-type="reload">搜索</button>
+    </div>
+    <div class="layui-inline">
+        <button class="layui-btn" data-type="generate">
+            <i class="layui-icon">&#xe653;</i>代码生成
+        </button>
+    </div>
+</div>
+
+<table class="layui-hide" id="pageList" lay-filter="pageList"></table>
+
+<script type="text/html" id="top_bar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-primary layui-btn-sm"
+                lay-event="deleteBatch">功能按钮</button>
+    </div>
+</script>
+<script type="text/html" id="row_bar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<div th:replace="common/links::jquery_script"></div>
+<div th:replace="common/links::layui_script"></div>
+<!--    <div th:replace="common/links::common_script"></div>-->
+<!--您的Layui代码start-->
+<script type="text/javascript">
+    var data = [
+        {type: 'checkbox', fixed: 'left'}
+        , {field: 'tableName', title: '表名', sort: true, edit: 'null'}
+        , {field: 'tableCollation', title: '编码', sort: false, edit: 'null'}
+        , {field: 'engine', title: '引擎', sort: false, edit: 'null'}
+        , {field: 'tableComment', title: '备注信息', sort: true, edit: 'null'}
+        , {
+            field: 'createTime', title: '创建时间', sort: true, templet:'<div>{{layui.util.toDateString(d.createTime, "yyyy年MM月dd日HH时mm分")}}</div>'
+        }
+    ];
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            id:"dataTable"
+            , elem: '#pageList'
+            , url: 'page'
+            , startByZero: true //分页查询从page=0页开始
+            , title: '用户数据表'
+            , cols: [data]
+            , page: true
+            ,page: {
+                curr: 0 //重新从第 1 页开始
+            }
+            ,where: {
+                // id: 1
+                name: "" //排序字段
+            }
+            , request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                ,limitName: 'size' //每页数据量的参数名，默认：limit
+            }
+        });
+
+        //监听按钮data-type及定义方法
+        let $ = layui.$, active = {
+            reload: function(){
+                let name = $('#name');
+                //执行重载
+                table.reload('dataTable', {
+                    page: {
+                        curr: 0 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        // id: 1
+                        name: name.val() //排序字段
+                    }
+                    , request: {
+                        pageName: 'page' //页码的参数名称，默认：page
+                        ,limitName: 'size' //每页数据量的参数名，默认：limit
+                    }
+                }, 'data');
+            }
+            ,generate:function() {
+                let checkStatus = table.checkStatus("dataTable");
+                if (checkStatus.data.length == 0) {
+                    layer.msg("你好像什么也没有选中！");
+                    return ;
+                }
+                let tableName = [];
+                for (let i = 0; i < checkStatus.data.length; i++) {
+                    tableName.push(checkStatus.data[i].tableName);
+                }
+                location.href = "generate?tables=" + tableName;
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            let type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

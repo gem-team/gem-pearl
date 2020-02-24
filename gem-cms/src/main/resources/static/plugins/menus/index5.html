@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" type="text/css" href="css/zzsc.css">
+	<link rel="stylesheet" href="dist/basicContext.min.css">
+	<link rel="stylesheet" href="dist/themes/default.min.css">
+	<style>
+		html {
+			width: 100%;
+			height: 100%;
+		}
+
+		body {
+			text-align: center;
+			min-height: 100%;
+			font-size: 14px;
+		}
+
+		.htmleaf-content a {
+			display: inline-block;
+			margin: 50px 0;
+			padding: 6px 10px;
+			background: #4393e6;
+			color: #fff;
+			text-decoration: none;
+			border-radius: 3px;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="htmleaf-container">
+		<header class="htmleaf-header">
+			<div class="zzsc center">
+			  <a href="index.html">default</a>
+			  <a href="index2.html">position</a>
+			  <a href="index3.html">scroll</a>
+			  <a href="index4.html">closeFunction</a>
+			  <a href="index5.html" class="current">customPosition</a>
+			  <a href="index6.html">jQuery</a>
+			</div>
+		</header>
+		<div class="htmleaf-content">
+			<a href="#" class="click">Click me!</a>
+		</div>
+	</div>
+	
+	<script src="dist/basicContext.min.js"></script>
+	<script>
+
+		var onClick = function() {
+
+			var clicked = function() { alert('Item clicked!') }
+
+			var e = {
+				pageX: 10,
+				pageY: 10
+			}
+
+			var items = [
+				{ title: 'Add Sites', icon: 'ion-plus-round', fn: clicked },
+				{ title: 'Reset Login', icon: 'ion-person', fn: clicked },
+				{ title: 'Help', icon: 'ion-help-buoy', fn: clicked },
+				{ title: 'Disabled', icon: 'ion-minus-circled', fn: clicked, disabled: true },
+				{ title: 'Invisible', icon: 'ion-eye-disabled', fn: clicked, visible: false },
+				{ },
+				{ title: 'Logout', icon: 'ion-log-out', fn: clicked }
+			]
+
+			basicContext.show(items, e)
+
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+
+			document.querySelector('a.click').addEventListener('click', onClick)
+
+		})
+
+	</script>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p>适用浏览器：360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗. 不支持IE8及以下浏览器。</p>
+<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</div>

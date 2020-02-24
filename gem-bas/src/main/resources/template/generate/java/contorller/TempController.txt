@@ -1,0 +1,96 @@
+package ${package}.controller;
+
+import ${package}.model.enums.ResultCode;
+import ${package}.model.BaseResult;
+import ${package}.model.vo.${Entity}Vo;
+import ${package}.service.${Entity}Service;
+import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
+
+/**
+ * @Title: ${Entity}Controller.java
+ * @Package: ${package}.controller
+ * @Date: ${datetime}
+ * @Version: v1.0
+ * @Description: 这里写描述
+ * @Author: ${author}
+ * @Copyright: Copyright (c) 2019 GemStudio
+ * @Company: www.gemframework.com
+ */
+
+@Slf4j
+@Controller
+@RequestMapping("${entity}")
+public class ${Entity}Controller {
+
+    @Resource
+    ${Entity}Service ${entity}Service;
+
+    @GetMapping("list.html")
+    public String list(HttpServletRequest request,Model model){
+        return "${entity}/list";
+    }
+
+    @GetMapping("pageByParams")
+    @ResponseBody
+    public BaseResult pageByParams(${Entity}Vo vo, Pageable pageable){
+        PageInfo pageInfo =  ${entity}Service.findPageByParams(vo,pageable);
+        return BaseResult.SUCCESS(pageInfo);
+    }
+
+    @GetMapping("add.html")
+    public String add(HttpServletRequest request,Model model){
+        return "${entity}/add";
+    }
+
+
+    @GetMapping("edit.html")
+    public String edit(HttpServletRequest request,Model model, Long id){
+        ${Entity}Vo vo = ${entity}Service.getById(id);
+        model.addAttribute("editInfo",vo);
+        return "${entity}/edit";
+    }
+
+    @PostMapping("add")
+    @ResponseBody
+    public BaseResult add(@Valid @RequestBody ${Entity}Vo vo, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return BaseResult.ERROR(ResultCode.PARAM_EXCEPTION.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
+        return BaseResult.SUCCESS(${entity}Service.save(vo));
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public BaseResult delete(Long id){
+        ${entity}Service.delete(id);
+        return BaseResult.SUCCESS();
+    }
+
+    @PostMapping("deleteBatch")
+    @ResponseBody
+    public BaseResult deleteBatch(@RequestBody List<${Entity}Vo> vos){
+        ${entity}Service.deleteBatch(vos);
+        return BaseResult.SUCCESS();
+    }
+
+    @GetMapping("getOne")
+    @ResponseBody
+    public BaseResult get(Long id){
+        return BaseResult.SUCCESS(${entity}Service.getById(id));
+    }
+
+
+
+}

@@ -1,0 +1,102 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <link href="js/bstable/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="js/bstable/css/bootstrap-table.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.treetable.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css">
+    <link href="css/table.css" rel="stylesheet" type="text/css">
+
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+<div class="notice_main">
+    <h6>商品详情</h6>
+    <div style="border-bottom: 1px #ccc solid;padding-bottom: 8px">
+        <p style="line-height: 24px;font-size: 14px;padding: 4px 0 0 36px ;color:#bb8940;background-image: url(img/ts_03.png);background-repeat: no-repeat;background-position: 10px 8px;font-weight: bold">温馨提示</p>
+        <ul class="ts">
+            <li><span>*</span>该页面主要显示的是商品详情表格的类容。</li>
+            <li><span>*</span>该页面主要显示的是商品详情表格的类容。</li>
+        </ul>
+    </div>
+    <div class="goods_main" >
+        <div><label>商品名称：</label><input type="text" placeholder="请输入商品的名称" class="goods_input"></div>
+        <div><label>商品大类：</label><select class="goods_input"><option>全部</option></select></div>
+        <div><label>商品小类：</label><select class="goods_input"><option>全部</option></select></div>
+        <div><label>团购分类：</label><select class="goods_input"><option>全部</option></select></div>
+        <div class="good_pic"><label>商品图片：</label>
+            <div class="good_pic_ul">
+                <button>图片上传</button>
+
+                <div class="clear"></div>
+                <ul style="float: left">
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic_li_div">
+                            <img src="img/timg.jpg">
+                            <div class="pic_btn"><img src="img/close4.png" style="width: 16px;height: 16px;"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div style="font-size: 12px"><label>团购时间：</label><input type="text" class="goods_input1" style="margin-left: 0" id="starTime">至<input type="text" class="goods_input1" id="endTime"></div>
+        <div><label>团购价格：</label><input type="text" class="goods_input"></div>
+        <div><label>库存数量：</label><input type="text" class="goods_input"></div>
+        <div><div class="l_left"><label>团购简介：</label></div><div class="l_left"><textarea></textarea></div></div>
+        <div class="clear"></div>
+        <div class="good_btn"><button>保存</button></div>
+    </div>
+</div>
+
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="js/date/js/laydate.js"></script>
+<script>
+    !function(){
+        laydate.skin('danlan');
+        laydate({elem: '#starTime'});
+        laydate({elem: '#endTime'});
+    }();
+    $(function(){
+        $(".pic_btn").each(function(){
+            $(this).click(function(){
+                $(this).parent().parent().hide();
+            })
+        })
+    })
+</script>
+
+</body>
+</html>

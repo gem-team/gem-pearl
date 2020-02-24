@@ -1,0 +1,30 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+    <link href="css/tail.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="div_form" style="width: 80%;margin: 20px auto 0 auto">
+        <label class="form_label">日志保留时间</label><select class="form_input">
+            <option>保留近一周</option>
+            <option>保留近一个月</option>
+            <option>保留三个月</option>
+            <option>不保留，全部删除</option>
+        </select>
+</div>
+<div style="clear: both"></div>
+<div class="notice_bot">
+    <div class="l_left"><input type="checkbox" checked="checked"/>保存并关闭窗口</div>
+    <div class="r_right but_p"><button class="but_save">保存</button><button class="but_close"  onclick="Cancel()">关闭</button></div>
+</div>
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script>
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</body>
+</html>

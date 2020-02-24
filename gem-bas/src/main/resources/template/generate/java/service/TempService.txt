@@ -1,0 +1,28 @@
+package ${package}.service;
+
+import ${package}.model.vo.${Entity}Vo;
+import ${package}.model.vo.response.PageInfo;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public interface ${Entity}Service {
+
+    boolean exist(${Entity}Vo vo);
+
+    ${Entity}Vo save(${Entity}Vo vo);
+
+    List<${Entity}Vo> findListAll();
+
+    List<${Entity}Vo> findListByParams(${Entity}Vo vo);
+
+    PageInfo findPageAll(Pageable pageable);
+
+    PageInfo findPageByParams(${Entity}Vo vo, Pageable pageable);
+
+    void delete(Long id);
+
+    void deleteBatch(List<${Entity}Vo> vos);
+
+    ${Entity}Vo getById(Long id);
+}

@@ -1,0 +1,92 @@
+package ${package}.service.impl;
+
+import ${package}.common.enums.ResultCode;
+import ${package}.common.exception.GemException;
+import ${package}.common.utils.GemBeanUtils;
+import ${package}.model.po.${className};
+import ${package}.model.vo.${className}Vo;
+import ${package}.model.vo.response.PageInfo;
+import ${package}.repository.${className}Repository;
+import ${package}.service.${className}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+
+@Slf4j
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Resource
+    private ${className}Repository ${classname}Repository;
+
+
+    @Override
+    public ${className}Vo save(${className}Vo vo) {
+        ${className} entity = new ${className}();
+        GemBeanUtils.copyProperties(vo,entity);
+        entity = ${classname}Repository.save(entity);
+        GemBeanUtils.copyProperties(entity,vo);
+        return vo;
+    }
+
+    @Override
+    public List<${className}Vo> findListAll() {
+        List<${className}> list = ${classname}Repository.findAll();
+        List<${className}Vo> vos = GemBeanUtils.copyCollections(list,${className}Vo.class);
+        return vos;
+    }
+
+    @Override
+    public List<${className}Vo> findListByParams(${className}Vo vo) {
+        ${className} entity = new ${className}();
+        GemBeanUtils.copyProperties(vo,entity);
+        List<${className}> list = ${classname}Repository.findAll(Example.of(entity));
+        List<${className}Vo> vos = GemBeanUtils.copyCollections(list,${className}Vo.class);
+        return vos;
+    }
+
+    @Override
+    public PageInfo findPageByParams(${className}Vo vo,Pageable pageable) {
+        ${className} entity = new ${className}();
+        GemBeanUtils.copyProperties(vo,entity);
+        //创建匹配器，即如何使用查询条件
+        ExampleMatcher matcher = ExampleMatcher.matching() //构建对象
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) //改变默认字符串匹配方式：模糊查询
+                .withIgnoreCase(true); //改变默认大小写忽略方式：忽略大小写
+        Page<${className}> page = ${classname}Repository.findAll(Example.of(entity,matcher),pageable);
+        PageInfo pageInfo = PageInfo.builder()
+                .total(page.getTotalElements())
+                .rows(page.getContent())
+                .build();
+        return pageInfo;
+    }
+
+    @Override
+    public void delete(Long id) {
+        if(!${classname}Repository.existsById(id)){
+            throw new GemException(ResultCode.DATA_NOT_EXIST);
+        }
+        ${classname}Repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteBatch(List<${className}Vo> vos) {
+        List<${className}> list = GemBeanUtils.copyCollections(vos,${className}.class);
+        ${classname}Repository.deleteInBatch(list);
+    }
+
+    @Override
+    public ${className}Vo getById(Long id) {
+        ${className}Vo vo  = new ${className}Vo();
+        ${className} entity = ${classname}Repository.getById(id);
+        GemBeanUtils.copyProperties(entity,vo);
+        return vo;
+    }
+}

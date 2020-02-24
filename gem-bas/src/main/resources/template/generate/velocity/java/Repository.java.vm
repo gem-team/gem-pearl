@@ -1,0 +1,25 @@
+package ${package}.repository;
+
+import ${package}.model.po.${className};
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Repository extends JpaRepository<${className}, Long> {
+
+    @Query("select ${classname} from ${className} ${classname} where id = ?1")
+    ${className} getById(Long id);
+
+    @Query("select ${classname} from ${className} ${classname} where name=?1 and id <> ?2")
+    List<${className}> exist(String name, Long id);
+}

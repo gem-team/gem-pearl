@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="fullscreen-bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::table_list_links"></div>
+    <style>
+        .notice_nav a:nth-child(3){border-top-right-radius: 0;border-bottom-right-radius:0}
+        .notice_nav a:nth-child(4){border-top-right-radius: 4px;border-bottom-right-radius: 4px}
+        th{text-align: center !important;height: 34px;color: #FFF }
+        .dropdown-menu {
+            min-width: 140px !important;
+            margin-top: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 550px;overflow: auto">
+<div class="notice_main">
+    <div class="notice_check">
+        <div class="btn-group l_left"  style="margin-right: 4px">
+            <button type="button" class="btn btn-default dropdown-toggle change" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"  style="height: 30px;line-height: 30px;padding: 0 12px !important;font-size: 12px">选择条件</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="height: 30px;line-height: 30px">
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul style="min-width: 245px;!important;" class="dropdown-menu">
+                <li data-name="rolename">角色名称</li>
+            </ul>
+        </div>
+       <div class="l_left">
+           <input type="text" class="find_input" id="search-keyword" name="rolename">
+       </div>
+       <button class="check_btn" onclick="searchData()">查询</button>
+        <div class="notice_nav r_right">
+            <a class="btn btn-default" onclick="addView()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+            <a class="btn btn-default" onclick="editView()"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+            <a class="btn btn-default" onclick="deleteBatch()"><span class="glyphicon glyphicon-remove"></span>删除</a>
+            <a class="btn btn-default"><span class="glyphicon glyphicon-tag"></span>预览按钮</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <table id="table" class="table_style" style="margin: 0 auto" > </table>
+</div>
+
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<div th:replace="common/links::table_script"></div>
+
+<script  th:inline="javascript">
+    let runtime  = [[${session.session_runtime}]]
+    $(function(){
+        buildTable();
+        changeSearchParam();
+    });
+
+
+    //初始化表格
+    function buildTable() {
+        $('#table').bootstrapTable({
+            url: "pageByParams",
+            method: "get",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            paginationPreText:"上一页",
+            paginationNextText:"下一页",
+            sortable: true,                     //是否启用排序
+            sortName:"id",
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 10,                        //每页的记录行数（*）
+            pageList: [10, 20, 50, 100,"All"],        //可供选择的每页的行数（*）
+            smartDisplay:false,
+            clickToSelect: true,                //是否启用点击选中行
+            height: 30,                         //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+
+            //按钮设置
+            // strictSearch: true,
+            // search: false,                      //是否显示表格搜索
+            // toolbar: '#toolbar',                //工具按钮用哪个容器
+            // buttonsAlign:"center",              //按钮位置
+            // showColumns: true,                  //是否显示所有的列（选择显示的列）
+            // minimumCountColumns: 2,             //最少允许的列数
+            // showPaginationSwitch:true,          //是否显示分页切换
+            // showRefresh: true,                  //是否显示刷新按钮
+            // cardView: false,                    //是否显示详细视图
+            // detailView: false,                  //是否显示父子表
+            // showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+            // showExport: true,                   //是否显示导出按钮
+            // exportTypes:['excel'],              //导出文件类型
+            // exportDataType: "selected",         //basic', 'all', 'selected'.
+            //得到查询的参数
+            queryParams: function (params) {
+                var searchKey = $("#search-keyword").attr("name");
+                var searchVal = $("#search-keyword").val();
+                var queryParas = {
+                    page: params.offset / params.limit,  //页码
+                    size: params.limit,   //页面大小
+                }
+                if(searchVal != ""){
+                    queryParas[searchKey] = searchVal;
+                }
+                return queryParas;
+            },
+            responseHandler: function (res) {
+                //这里注意，这里是后台接口返回的数据，需要把返回的数据分别对接rows和total 用于分页和展示
+                return {
+                    "rows": res.data,
+                    "total": res.count==null?0:res.count
+                };
+            },
+            columns: [
+                {
+                    checkbox: "true",
+                    field: 'check',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '角色名称',
+                    field: 'rolename',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '角色标识',
+                    field: 'flag',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '数据范围',
+                    field: 'datarange',
+                    align: 'center',
+                    formatter : function (value, row, index) {
+                        if (row['datarange'] === 0) {
+                            return '仅限本人';
+                        }
+                        if (row['datarange'] === 1) {
+                            return '仅限本部门';
+                        }
+                        if (row['datarange'] === 2) {
+                            return '本部门以及下属部门';
+                        }
+                        if (row['datarange'] === 3) {
+                            return '自定义设置关联部门';
+                        }
+                        return value;
+                    },
+                },
+                 {
+                    field: 'operate',
+                    title: '操作',
+                    width: 320,
+                    align: 'center',
+                    events: "operateEvents",
+                    formatter: operateFormatter
+                }
+            ],
+            onLoadSuccess: function () {
+            },
+            onLoadError: function () {
+                layer.alert("数据加载失败！");
+                return;
+            },
+            onDblClickRow: function (row, $element) {
+                var id = row.id;
+                editView(id);
+            },
+        });
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<button type="button" id="btn_detail" class="btn btn-default btn-xs" style="margin-right: 5px;">详情</button>',
+            '<button type="button" id="btn_edit" class="btn btn-primary btn-xs" style="margin-right: 5px;">编辑</button>',
+            '<button type="button" id="btn_del" class="btn btn-danger btn-xs" style="margin-right: 5px;">删除</button>'
+        ].join('');
+
+    }
+    window.operateEvents = {
+        'click #btn_detail': function (e, value, row, index) {
+            layer.alert("您选中了数据:"+JSON.stringify(row));
+        },
+        'click #btn_edit': function (e, value, row, index) {
+            editView(row.id);
+        },
+        'click #btn_del': function (e, value, row, index) {
+            deleteData(row.id);
+        }
+    };
+
+    //打开添加窗口
+    function addView(){
+        layer.open({
+            type: 2,
+            title: '添加角色',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:0,
+            area: ['750px', '574px'],
+            content: 'add.html',
+            end:function () {
+                $('#table').bootstrapTable("refresh");
+            }
+        });
+    }
+
+    //打开编辑窗口（顶部编辑按钮和操作列）
+    function editView(id){
+        //顶部编辑按钮
+        if(id == null || id == ""){
+            var rows = $('#table').bootstrapTable("getSelections");
+            if(rows == null || rows.length == 0){
+                layer.msg("你好像什么也没有选中！");
+                return;
+            }else{
+                if(rows.length > 1){
+                    layer.msg("编辑只允许选择一行哦~");
+                    return;
+                }
+            }
+            id = rows[0].id;
+        }
+        if(runtime == "demo" && id == 1){
+            layer.msg("演示环境，不允许操作！", {icon:4});
+            return;
+        }
+        layer.open({
+            type: 2,
+            title: '编辑角色',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:0,
+            area: ['750px', '574px'],
+            content: 'edit.html?id='+id,
+            end:function () {
+                $('#table').bootstrapTable("refresh");
+            }
+        });
+    }
+
+
+    //删除数据
+    function deleteData(id) {
+        if(runtime == "demo"){
+            layer.msg("演示环境，不允许操作！", {icon:4});
+            return;
+        }
+
+        layer.confirm('确定删除吗？亲~', {
+            btn: ['确定','再想想'] //按钮
+            ,closeBtn:0
+        }, function(){
+            $.ajax({
+                type: "post",
+                url: "delete",
+                data: {
+                    "id":parseInt(id)
+                },
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                success: function(res) {
+                    if (res.code == "0") {
+                        layer.msg('删除成功！', {icon: 1});
+                        $('#table').bootstrapTable("refresh");
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }, function(){
+            return;
+        })
+    }
+
+    //公共按钮-批量删除
+    function deleteBatch() {
+        if(runtime == "demo"){
+            layer.msg("演示环境，不允许操作！", {icon:4});
+            return;
+        }
+        var rows = $('#table').bootstrapTable("getSelections");
+        var names = "";
+        if(rows == null || rows.length == 0){
+            layer.msg("你好像什么也没有选中！");
+            return;
+        }else{
+            for(var i = 0; i<rows.length; i++){
+                names += rows[i].rolename + ","
+            }
+            names = names.substring(0,names.length-1);
+        }
+
+        layer.confirm('确定删除['+names+']吗？亲~', {
+            btn: ['确定','再想想'] //按钮
+        }, function(){
+            $.ajax({
+                type: "post",
+                url: "deleteBatch",
+                data:  JSON.stringify(rows),
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType:"application/json;charset=UTF-8",
+                success: function(res) {
+                    console.log("res.code=="+res.code);
+                    console.log("res=="+JSON.stringify(res));
+                    if (res.code == "0") {
+                        layer.msg('删除成功！', {icon: 1});
+                        $('#table').bootstrapTable("refresh");
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }, function(){
+            return;
+        })
+    }
+
+</script>
+</body>
+</html>

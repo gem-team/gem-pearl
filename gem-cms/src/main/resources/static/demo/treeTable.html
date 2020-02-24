@@ -1,0 +1,150 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <link href="js/bstable/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="js/bstable/css/bootstrap-table.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.treetable.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css">
+    <link href="css/table.css" rel="stylesheet" type="text/css">
+    <style>
+        th{text-align: center !important;height: 34px;color: #FFF }
+        td{text-align: center !important;height: 34px;color: #475059 }
+    </style>
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+<div class="notice_main">
+    <h6>treeTable</h6>
+    <div style="border-bottom: 1px #ccc solid;padding-bottom: 8px">
+        <p style="line-height: 24px;font-size: 14px;padding: 4px 0 0 36px ;color:#bb8940;background-image: url(img/ts_03.png);background-repeat: no-repeat;background-position: 10px 8px;font-weight: bold">温馨提示</p>
+        <ul class="ts">
+            <li><span>*</span>该页面主要显示的是treeTable表格的类容。</li>
+            <li><span>*</span>该页面主要显示的是treeTable表格的类容。</li>
+        </ul>
+    </div><div class="notice_check">
+        <div class="btn-group l_left" style="margin-right: 4px">
+            <button type="button" class="btn btn-default change" style="height: 30px;line-height: 30px;padding: 0 12px !important;font-size: 12px">选择条件</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 30px;line-height: 30px">
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>角色名称</li>
+                <li>角色描述</li>
+            </ul>
+        </div>
+        <div class="l_left">
+            <input type="text" class="find_input">
+
+        </div>
+        <button class="check_btn">查询</button>
+
+
+        <div class="notice_nav r_right">
+            <a class="btn btn-default" onclick=""><span class="glyphicon glyphicon-plus"></span>新增</a>
+            <a class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>删除</a>
+            <a class="btn btn-default" onclick=""><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+        </div>
+    </div>
+
+        <table id="example-advanced" class="table table-bordered">
+
+            <thead>
+                 <tr><th>公司名称</th><th>外文名称</th><th>中文名称</th><th>公司性质</th><th>公司规模</th></tr>
+            </thead>
+            <tbody>
+            <tr data-tt-id="0">
+                <td ><span class="folder"></span>杭州xxxxx科技有限公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技</td>
+                <td >互联网</td>
+                <td >600人</td>
+            </tr>
+
+
+            <tr data-tt-id="1" data-tt-parent-id="0">
+                <td ><span class="folder"></span>杭州xxxxx科技成都分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技成都分公司</td>
+                <td >互联网</td>
+                <td >100人</td>
+            </tr>
+
+            <tr data-tt-id="1-1" data-tt-parent-id="0">
+
+                <td ><span class="folder"></span>杭州xxxxx科技南充分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技南充分公司</td>
+                <td >互联网</td>
+                <td >50人</td>
+
+            </tr>
+
+            <tr data-tt-id="2">
+
+                <td ><span class="folder"></span>杭州xxxxx科技有限公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技成都分公司</td>
+                <td >互联网</td>
+                <td >600人</td>
+            </tr>
+
+            <tr data-tt-id="2-1" data-tt-parent-id="2">
+
+                <td ><span class="folder"></span>杭州xxxxx科技成都分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技南充分公司</td>
+                <td >互联网</td>
+                <td >100人</td>
+            </tr>
+
+            <tr data-tt-id="2-1" data-tt-parent-id="2">
+
+                <td ><span class="folder"></span>杭州xxxxx科技南充分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技成都分公司</td>
+                <td >互联网</td>
+                <td >50人</td>
+            </tr>
+            <tr data-tt-id="3">
+
+                <td ><span class="folder"></span>杭州xxxxx科技有限公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技</td>
+                <td >互联网</td>
+                <td >600人</td>
+            </tr>
+
+            <tr data-tt-id="3-1" data-tt-parent-id="3">
+
+                <td ><span class="folder"></span>杭州xxxxx科技成都分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技成都分公司</td>
+                <td >互联网</td>
+                <td >100人</td>
+            </tr>
+
+            <tr data-tt-id="3-1" data-tt-parent-id="3">
+
+                <td ><span class="folder"></span>杭州xxxxx科技南充分公司</td>
+                <td>Teamax</td>
+                <td >xxxxx科技南充分公司</td>
+                <td >互联网</td>
+                <td >50人</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+</div>
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="js/jquery.treetable.js"></script>
+<script language="javascript">
+    $("#example-advanced").treetable({ expandable: true});
+</script>
+
+</body>
+</html>

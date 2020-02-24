@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lowtail</title>
+    <style>
+        .lowTop{
+            float: left;
+            padding: 5px;
+
+            background-color: #fff;
+            margin-top: 15px;
+            width: 98%;
+            margin-left: 1%;
+            font-size: 12px;
+        }
+        .lowCon{
+            width: 1090px;
+            margin: 0 auto;
+
+
+        }
+        .borderLeft{
+            border-left:2px solid #00a0e9;
+
+        }
+
+        .buleColor{
+            color: skyblue;
+        }
+        .drakColor{
+            color: #999999;
+        }
+        .redColor{
+            color: red;
+        }
+        .greenColor{
+            color: green;
+        }
+        .marginR{
+            margin-right: 15px;
+        }
+        .topSpan{
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .crilcDiv{
+            float: left;
+        }
+        .claer{
+            clear: both;
+        }
+
+        .cricleBox{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            line-height: 50px;
+            text-align: center;
+
+        }
+        .cricleText{
+            text-align: center;
+            font-size: 12px;
+            width: 50px;
+        }
+        .noClice{
+            background-color: #EEEEEE;
+            border:2px solid #CCCCCC;
+            color: #999999;
+
+        }
+        .yesClice{
+            background-color: rgba(64, 166, 105, 0.37);
+            border:2px solid #40a669;
+            color: #40a669;
+
+        }
+        .lineDiv{
+            float: left;
+           line-height: 50px;
+           height: 50px;
+        }
+        .lineDiv div{
+            width: 150px;
+            margin-top: 30px;
+
+        }
+        .greeLine{
+            border:1px solid green;
+
+        }
+        .drakLine{
+            border:1px solid #CCCCCC;
+        }
+        .tab{
+            float: left;
+            width: 100%;
+            padding-top: 5px;
+            padding-left: 5px;
+            background-color: #CCCCCC;
+            font-size: 12px;
+        }
+        .tab ul{
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+        .tab ul li{
+            float: left;
+            width: 10%;
+            line-height: 30px;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            cursor: pointer;
+
+        }
+        .liActive{
+            background-color: #ffffff;
+            border-top:1px solid #ff9223;
+
+        }
+        .contentDiv{
+            float: left;
+            font-size: 13px;
+            width: 100%;
+            display: none;
+        }
+        .contentDiv ul li{
+            line-height: 30px;
+        }
+        .contentActive{
+            display: block;
+        }
+    </style>
+</head>
+<body style="background-color: #EEEEEE">
+<div class="lowTop borderLeft">
+    <p><strong class="buleColor">政协协同办案：</strong><span class="topSpan">[政协提交流程办理]</span><span class="drakColor">2017年10月25日办理情况</span></p>
+    <p><span class="topSpan">完成情况：</span>已办理案件--<span class="greenColor marginR">[10件]</span>未办理案件--<span class="redColor marginR">[10件]</span>
+        待办理案件--<span class="drakColor">[10件]</span></p>
+</div>
+<div class="claer"></div>
+<div class="lowTop">
+    <div class="lowCon">
+        <div class="crilcDiv">
+            <div class="cricleBox yesClice">
+                &radic;
+            </div>
+            <div class="cricleText greenColor">提交申请</div>
+        </div>
+        <div class="lineDiv">
+            <div class="greeLine"></div>
+        </div>
+
+        <div class="crilcDiv">
+            <div class="cricleBox yesClice">
+                &radic;
+            </div>
+            <div class="cricleText greenColor">接收申请</div>
+        </div>
+        <div class="lineDiv">
+            <div class="greeLine"></div>
+        </div>
+        <div class="crilcDiv">
+            <div class="cricleBox yesClice">
+                &radic;
+            </div>
+            <div class="cricleText greenColor">初审</div>
+        </div>
+        <div class="lineDiv">
+            <div class="greeLine"></div>
+        </div>
+        <div class="crilcDiv">
+            <div class="cricleBox noClice">
+                &times;
+            </div>
+            <div class="cricleText drakColor">二级部门审批</div>
+        </div>
+        <div class="lineDiv">
+            <div class="drakLine"></div>
+        </div>
+        <div class="crilcDiv">
+            <div class="cricleBox noClice">
+                &times;
+            </div>
+            <div class="cricleText drakColor">复审</div>
+        </div>
+        <div class="lineDiv">
+            <div class="drakLine"></div>
+        </div>
+        <div class="crilcDiv">
+            <div class="cricleBox noClice">
+                &times;
+            </div>
+            <div class="cricleText drakColor">审批成功</div>
+        </div>
+    </div>
+
+</div>
+<div class="claer"></div>
+<div class="lowTop">
+    <div class="tab">
+        <ul>
+            <li class="liActive">申请提交</li>
+            <li>申请接收</li>
+            <li>初审</li>
+            <li>复审</li>
+            <li>最终结果</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="contentDiv contentActive">
+           <ul>
+               <li><strong>操作名称：</strong><span class="marginR">政协协同提案申请提交</span><span class="drakColor">2017-12-13</span></li>
+               <li><strong>操作步骤：</strong><span class="marginR">admin提交了【政协协同提案申请书】</span><span class="drakColor">2017-12-13</span></li>
+               <li><strong>操作结果：</strong><span class="marginR greenColor">提案申请书提交成功</span><span class="drakColor">2017-12-13</span></li>
+           </ul>
+
+        </div>
+        <div class="contentDiv">
+            <ul>
+                <li><strong>操作名称：</strong><span class="marginR">政协协同提案申请接收</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作步骤：</strong><span class="marginR">admin提交了【政协协同提进行初审】</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作结果：</strong><span class="marginR greenColor">提案初审核成功</span><span class="drakColor">2017-12-13</span></li>
+            </ul>
+
+        </div>
+        <div class="contentDiv">
+            <ul>
+                <li><strong>操作名称：</strong><span class="marginR">政协协同提案申请提交</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作步骤：</strong><span class="marginR">admin提交了【政协协同提进行初审】</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作结果：</strong><span class="marginR greenColor">提案初审核成功</span><span class="drakColor">2017-12-13</span></li>
+            </ul>
+
+        </div>
+        <div class="contentDiv">
+            <ul>
+                <li><strong>操作名称：</strong><span class="marginR">政协协同提案申请提交</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作步骤：</strong><span class="marginR">admin提交了【政协协同提进行复审】</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>操作结果：</strong><span class="marginR redColor">提案初复核失败</span><span class="drakColor">2017-12-13</span></li>
+            </ul>
+
+        </div>
+        <div class="contentDiv">
+            <ul>
+                <li><strong>第一步：</strong><span class="marginR">政协协同提案申请提交</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>第二步：</strong><span class="marginR">政协协同提案申请被接收了</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>第三步：</strong><span class="marginR redColor">提案初复核失败</span><span class="drakColor">2017-12-13</span></li>
+                <li><strong>流程结果：</strong><span class="marginR redColor">提案申请还未被通过</span><span class="drakColor">2017-12-13</span></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script src="js/jquery-2.2.0.min.js"></script>
+<script>
+    $(function () {
+        $(".tab ul li").click(function () {
+           $(this).addClass("liActive").siblings().removeClass("liActive");
+           var ins= $(this).index();
+          $(".content>div").eq(ins).show().siblings('div').hide();
+
+
+
+        })
+
+    })
+</script>
+</body>
+</html>

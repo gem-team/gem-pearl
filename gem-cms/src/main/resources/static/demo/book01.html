@@ -1,0 +1,192 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+    <link href="css/table.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="background-color: #e6ecf5;min-width: 1100px">
+<div class="book_con01">
+    <h1 class="book_h01">新闻编辑</h1>
+    <form id="form_demo">
+        <table class="book_table" border="1" cellpadding="10">
+    <tr>
+        <td class="table_td"><p>标题</p><span>*</span></td>
+        <td colspan="5"><input type="text" class="book_input03" name ="name"   required /></td>
+    </tr>
+    <tr>
+        <td class="table_td"><p>主题</p><span>*</span></td>
+        <td colspan="5"><input type="text" class="book_input03" name ="name" minlength="2"  required /></td>
+    </tr>
+     <tr>
+         <td class="table_td"><p>作者</p><span></span></td>
+        <td ><input type="text" class="book_input03" name ="name" minlength="2"  required /></td>
+         <td class="table_td"><p>编辑</p><span></span></td>
+        <td>
+            <input type="text" class="book_input03"/>
+        </td>
+         <td class="table_td"><p>出版社</p><span></span></td>
+        <td>
+            <input type="text" class="book_input03"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="table_td"><p>Tag标签</p><span></span></td>
+        <td ><input type="text"  class="book_input03"/></td>
+
+        <td class="table_td"><p>联系电话</p><span>*</span></td>
+        <td>
+            <input type="text" class="book_input03"/>
+        </td>
+        <td class="table_td"><p>邮箱</p><span></span></td>
+        <td>
+            <input type="number" class="book_input03"/>
+        </td>
+    </tr>
+        <tr>
+            <td class="table_td"><p>性别</p><span></span></td>
+            <td colspan="5" class="sex"><input type="radio" class="input_radio" checked="checked" name="sex"/><a>男</a><input type="radio" class="input_radio" name="sex"/><a>女</a></td>
+        </tr>
+        <tr>
+            <td class="table_td table_td1"><p>所在部门</p><span></span></td>
+            <td colspan="5" class="sex"><input type="radio" class="input_radio" checked="checked" name="radio01"/><a>研发部</a><input type="radio" class="input_radio" name="radio01"/><a>生产部</a><input type="radio" class="input_radio" name="radio01"/><a>销售部</a><input type="radio" class="input_radio" name="radio01"/><a>财务部</a></td>
+        </tr>
+        <tr>
+            <td class="table_td table_td1"><p>上传文件</p><span></span></td>
+            <td colspan="5" class="sex">
+                <input type="file"  value="上传文件"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="table_td table_td1"><p>通信地址</p><span></span></td>
+            <td colspan="5">
+                <input type="text" class="book_input03"/>
+            </td>
+        </tr>
+    <tr>
+        <td class="table_td table_td1"><p>文本内容</p><span></span></td>
+        <td colspan="5">
+
+            <div id="editor" style="width: 99%" ></div>
+
+        </td>
+    </tr>
+
+</table>
+    <p class="book_foot"><input type="submit" value="提交文本"/><input type="button" value="存为草稿"/><input type="button" value="重置"/><input type="button" value="取消"/></p></form>
+</div>
+<script  src="js/jquery/"></script>
+<script src="js/utf8-php/ueditor.config.js"></script>
+<script src="js/utf8-php/ueditor.all.min.js"></script>
+<script >
+    var ue = UE.getEditor('editor');
+    function isFocus(e){
+        alert(UE.getEditor('editor').isFocus());
+        UE.dom.domUtils.preventDefault(e)
+    }
+    function setblur(e){
+        UE.getEditor('editor').blur();
+        UE.dom.domUtils.preventDefault(e)
+    }
+    function insertHtml() {
+        var value = prompt('????html????', '');
+        UE.getEditor('editor').execCommand('insertHtml', value)
+    }
+    function createEditor() {
+        enableBtn();
+        UE.getEditor('editor');
+    }
+    function getAllHtml() {
+        alert(UE.getEditor('editor').getAllHtml())
+    }
+    function getContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+    function getPlainTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getPlainTxt());
+        alert(arr.join('\n'))
+    }
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("");
+        UE.getEditor('editor').setContent('??????ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+    function setDisabled() {
+        UE.getEditor('editor').setDisabled('fullscreen');
+        disableBtn("enable");
+    }
+
+    function setEnabled() {
+        UE.getEditor('editor').setEnabled();
+        enableBtn();
+    }
+
+    function getText() {
+
+        var range = UE.getEditor('editor').selection.getRange();
+        range.select();
+        var txt = UE.getEditor('editor').selection.getText();
+        alert(txt)
+    }
+
+    function getContentTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContentTxt());
+        alert(arr.join("\n"));
+    }
+    function hasContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').hasContents());
+        alert(arr.join("\n"));
+    }
+    function setFocus() {
+        UE.getEditor('editor').focus();
+    }
+    function deleteEditor() {
+        disableBtn();
+        UE.getEditor('editor').destroy();
+    }
+    function disableBtn(str) {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            if (btn.id == str) {
+                UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            } else {
+                btn.setAttribute("disabled", "true");
+            }
+        }
+    }
+    function enableBtn() {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+        }
+    }
+
+    function getLocalData () {
+        alert(UE.getEditor('editor').execCommand( "getlocaldata" ));
+    }
+
+    function clearLocalData () {
+        UE.getEditor('editor').execCommand( "clearlocaldata" );
+        alert("")
+    }
+</script>
+</body>
+</html>

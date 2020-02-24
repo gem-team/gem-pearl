@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>首页 | GemFrame开源权限管理系统v1.0.0</title>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <div th:replace="common/links::layui_links"></div>
+</head>
+<body>
+    <table class="layui-hide" id="pageList" lay-filter="pageList"></table>
+
+    <script type="text/html" id="top_bar">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" lay-event="deleteBatch">批量删除</button>
+<!--            <button class="layui-btn layui-btn-primary layui-btn-sm" lay-event="search">高级查询</button>-->
+        </div>
+    </script>
+
+    <script type="text/html" id="row_bar">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <div th:replace="common/links::jquery_script"></div>
+    <div th:replace="common/links::layui_script"></div>
+<!--    <div th:replace="common/links::common_script"></div>-->
+    <!--您的Layui代码start-->
+    <script type="text/javascript">
+        var data = [
+            {type: 'checkbox', fixed: 'left'}
+            ${listFeildHtml}
+            ,{fixed: 'right', title:'操作', toolbar: '#row_bar', width:150}
+        ];
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#pageList'
+                ,url:'pageByParams'
+                ,startByZero:true //分页查询从page=0页开始
+                ,toolbar: '#top_bar' //开启头部工具栏，并为其绑定左侧模板
+                ,defaultToolbar: ['filter', 'exports', 'print']
+                ,title: '用户数据表'
+                ,cols: [data]
+                ,page: true
+                ,request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    ,limitName: 'size' //每页数据量的参数名，默认：limit
+                }
+            });
+
+            //头工具栏事件
+            table.on('toolbar(pageList)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch(obj.event){
+                    //添加
+                    case 'add':
+                        layer.open({
+                            type: 2,
+                            title: '添加${entityCN}',
+                            shadeClose: true,
+                            skin: 'layui-layer-lan',
+                            shade: 0.5,
+                            closeBtn:1,
+                            area: ['${pageW}px', '${pageH}px'],
+                            content: 'add.html',
+                            end:function () {
+                                if($(".layui-laypage-btn")[0] == null){
+                                    location.reload();
+                                }else{
+                                    $(".layui-laypage-btn")[0].click();
+                                }
+                            }
+                        });
+                        break;
+                    //批量删除
+                    case 'deleteBatch':
+                        //顶部编辑按钮
+                        var names = "";
+                        if(checkStatus.data.length == 0){
+                            layer.msg("你好像什么也没有选中！");
+                            return;
+                        }else{
+                            for(var i = 0; i<checkStatus.data.length; i++){
+                                names += checkStatus.data[i].${pkName} + ","
+                            }
+                            names = names.substring(0,names.length-1);
+                            layer.confirm('确定删除['+names+']吗？亲~', {
+                                btn: ['确定','再想想'] //按钮
+                            }, function(){
+                                $.ajax({
+                                    type: "post",
+                                    url: "deleteBatch",
+                                    data: JSON.stringify(checkStatus.data),
+                                    contentType:"application/json;charset=UTF-8",
+                                    async:true, // 异步请求
+                                    cache:false, // 设置为 false 将不缓存此页面
+                                    dataType: "json", // 返回对象
+                                    success: function(res) {
+                                        if (res.code == "0") {
+                                            layer.msg('删除成功！', {icon: 1});
+                                            location.reload();
+                                        }else {
+                                            layer.alert("["+res.code+"]"+res.msg, {
+                                                skin: 'layui-layer-lan'
+                                                ,closeBtn: 0
+                                                ,anim: 4 //动画类型
+                                            });
+                                        }
+                                    },
+                                    error: function(e) {
+                                        // 请求失败函数
+                                        console.log("error:"+JSON.stringify(e));
+                                        alert("操作失败，请检查是否有相关操作权限！");
+                                    }
+                                })
+                            }, function(){
+                                return;
+                            })
+                        }
+                        break;
+                    //查询
+                    case 'search':
+                        //编辑按钮
+                        layer.open({
+                            type: 2,
+                            title: '编辑${entityCN}',
+                            shadeClose: true,
+                            skin: 'layui-layer-lan',
+                            shade: 0.5,
+                            closeBtn:1,
+                            area: ['${pageW}px', '${pageH}px'],
+                            content: 'add.html',
+                            end:function () {
+                                $(".layui-laypage-btn")[0].click();
+                            }
+                        });
+                        break;
+                };
+            });
+
+            //监听行工具事件
+            table.on('tool(pageList)', function(obj){
+                var data = obj.data;
+                //单条删除
+                if(obj.event === 'del'){
+                    layer.confirm('确定删除吗？亲~', {
+                        btn: ['确定','再想想'] //按钮
+                    }, function(){
+                        $.ajax({
+                            type: "post",
+                            url: "delete",
+                            data: {'id':data.id},
+                            async:true, // 异步请求
+                            cache:false, // 设置为 false 将不缓存此页面
+                            dataType: "json", // 返回对象
+                            success: function(res) {
+                                if (res.code == "0") {
+                                    layer.msg('删除成功！', {icon: 1});
+                                    $(".layui-laypage-btn")[0].click();
+                                    // obj.del();
+                                }else {
+                                    layer.alert("["+res.code+"]"+res.msg, {
+                                        skin: 'layui-layer-lan'
+                                        ,closeBtn: 0
+                                        ,anim: 4 //动画类型
+                                    });
+                                }
+                            },
+                            error: function(e) {
+                                // 请求失败函数
+                                console.log("error:"+JSON.stringify(e));
+                                alert("操作失败，请检查是否有相关操作权限！");
+                            }
+                        })
+                    }, function(){
+                        return;
+                    })
+                //编辑
+                } else if(obj.event === 'edit'){
+                    //编辑按钮
+                    layer.open({
+                        type: 2,
+                        title: '编辑模块',
+                        shadeClose: true,
+                        skin: 'layui-layer-lan',
+                        shade: 0.5,
+                        closeBtn:1,
+                        area: ['${pageW}px', '${pageH}px'],
+                        content: 'edit.html?id='+data.id,
+                        end:function () {
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+</head>
+<body style="border-radius: 8px;width: 690px;overflow: hidden">
+<form id="form" onsubmit="return false">
+    <div class="top">
+        <div>
+            <div class="top_out">
+                <table class="table">
+                    <tbody>
+                    <input type="hidden" id="id" name="id" th:value="${edit_role.id}">
+                    <tr>
+                        <td>角色名称<span class="span">*</span></td>
+                        <td><input type="text" id="rolename" name="rolename" required   minlength ="2" th:value="${edit_role.rolename}"></td>
+                        <td>角色标识<span class="span">*</span></td>
+                        <td>
+                            <input type="text" id="flag" name="flag"  required  th:value="${edit_role.flag}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>其他备注<span class="span"></span></td>
+                        <td colspan = "8" style="text-align: left">
+                            <textarea id="desp" name="desp" th:text="${edit_role.desp}"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>授权资源<span class="span">*</span></td>
+                        <td>
+                            <div class="tree_left_top">
+                                <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                                    <div class="notice_nav r_left">
+                                        <a class="btn btn-default btn-xs" onclick="CheckAllNodes('checkboxTree')"><span class="glyphicon glyphicon-plus"></span>全选</a>
+                                        <a class="btn btn-default btn-xs" onclick="CancelAllNodes('checkboxTree')"><span class="glyphicon glyphicon-remove"></span>全消</a>
+                                    </div>
+                                    <p><ul id="checkboxTree" class="ztree"  style="height: 250px; overflow:auto;"></ul></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>数据范围<span class="span">*</span></td>
+                        <td>
+                            <select id="datarange" name="datarange" onclick="setDateRange(this.value)">
+                                <option th:selected="${edit_role.datarange eq 0}" value="0">仅限个人</option>
+                                <option th:selected="${edit_role.datarange eq 1}" value="1">仅限本部门</option>
+                                <option th:selected="${edit_role.datarange eq 2}" value="2">本部门及下属部门</option>
+                                <option th:selected="${edit_role.datarange eq 3}" value="3">自定义设置</option>
+                            </select>
+<!--                            <div class=" order_ztree l_left organize_ztree" id="tree" style="width: 100%;height: 170px;overflow: auto;margin: 20px 0">-->
+<!--                                <ul id="userformTree2" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>-->
+<!--                            </div>-->
+                            <div class="tree_left_top">
+                                <div class=" order_ztree l_left organize_ztree" id="tree" style="width: 100%;display: none">
+                                    <p><ul id="userformTree2" class="ztree"  style="height:250px;overflow:auto"></ul></p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="color: red">
+                        <td colspan="2">注：重置角色授权信息后请重新登录生效！</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--底部按钮-->
+            <div class="notice_bot">
+                <div class="l_left">
+                    <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+                </div>
+                <div class="r_right but_p">
+                    <button class="but_save" type="button" onclick="editData()">保存</button>
+                    <button class="but_close" onclick="Colse()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::table_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<div th:replace="common/links::multiselect_script"></div>
+<script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/menutree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/address.js}"></script>
+<div th:replace="common/links::validate_script"></div>
+<script th:inline="javascript">
+    $(function () {
+        initDate();
+    });
+
+
+    // 初始化回显数据
+    function initDate() {
+        var datarange = [[${edit_role.datarange}]];
+        if(datarange == 3){
+            $("#tree").show();
+        }
+
+        var depts = [[${edit_role.depts}]];
+        var deptsTree = $.fn.zTree.getZTreeObj("userformTree2");
+        for(var i = 0; i < depts.length; i++) {
+            // 回显选中的数据　　　
+            deptsTree.checkNode(deptsTree.getNodeByParam("id", depts[i].id), true);
+        }
+
+        var menus = [[${edit_role.menus}]];
+        var menusTree = $.fn.zTree.getZTreeObj("checkboxTree");
+        for(var i = 0; i < menus.length; i++) {
+            // 回显选中的数据　　　
+            menusTree.checkNode(menusTree.getNodeByParam("id", menus[i].id), true);
+        }
+    }
+
+    // 设置权限范围
+    function setDateRange(type) {
+        if(type == 3){
+            $("#tree").show();
+        }else{
+            $("#tree").hide();
+        }
+    }
+
+    //编辑数据
+    var formData = $('#form').serializeObject();
+    var menusArr = [];
+    var deptsArr = [];
+    function editData() {
+        //校验归属部门选中并且把选中值赋予input
+        var menus = GetCheckedAll("checkboxTree");
+        if(menus == null || menus == ""){
+            layer.alert("请选择资源信息！");
+            return;
+        }else{
+            for (var i = 0; i < menus.length; i++) {
+                var menu = new Object();
+                menu.name = menus[i].name;
+                menu.id = menus[i].id;
+                menu.pid = menus[i].pid;
+                menusArr.push(menu);
+            }
+        }
+
+        //判断deptsArr
+        if($("#datarange").val() == null){
+            layer.alert("请选择数据权限范围！");
+            return;
+        }else{
+            if($("#datarange").val() == 3){
+                var depts = GetCheckedAll("userformTree2");
+                if(depts == null || depts == ""){
+                    layer.alert("请选择关联部门！");
+                    return;
+                }else{
+                    for (var i = 0; i < depts.length; i++) {
+                        var dept = new Object();
+                        dept.name = depts[i].name;
+                        dept.id = depts[i].id;
+                        dept.pid = depts[i].pid;
+                        deptsArr.push(dept);
+                    }
+                }
+            }
+        }
+
+        //重新序列化form
+        formData = $('#form').serializeObject();
+        formData.menus = menusArr;
+        formData.depts = deptsArr;
+        var ajaxData = JSON.stringify(formData);
+        $.ajax({
+            type: "post",
+            url: "add",
+            data: ajaxData,
+            async:true, // 异步请求
+            cache:false, // 设置为 false 将不缓存此页面
+            dataType: "json", // 返回对象
+            contentType:"application/json;charset=UTF-8",
+            success: function(res) {
+                console.log("res.code=="+res.code);
+                console.log("res=="+JSON.stringify(res));
+                if (res.code == "0") {
+                    if($("#btn_save_close").is(':checked')){
+                        alert("修改成功", Colse);
+                    }
+                }else {
+                    layer.alert("["+res.code+"]"+res.msg, {
+                        skin: 'layui-layer-lan'
+                        ,closeBtn: 0
+                    });
+                }
+            },
+            error: function(e) {
+                // 请求失败函数
+                console.log("error:"+JSON.stringify(e));
+                layer.msg("操作失败，请检查是否有相关操作权限！");
+            }
+        })
+    }
+
+    // 关闭窗口
+    function Colse() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</body>
+</html>

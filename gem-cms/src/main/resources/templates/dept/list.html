@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="fullscreen-bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::table_list_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <style>
+        .department_main{padding: 10px 10px 0 10px}
+        .department_main label{width: 80px;text-align: right;font-size: 14px}
+        .department_main input{width: 240px;margin-right: 1%;height: 32px;border: 1px #ccc solid;background-color: #fff;border-radius: 4px}
+        .department_main textarea{resize: none;border: 1px #ccc solid;width: 570px;height: 200px;background-color: #fff;border-radius: 4px}
+    </style>
+
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 550px;overflow: auto">
+<div class="news_main">
+
+    <div id="dept_tree" class="l_left news_left">
+        <h6>部门目录</h6>
+        <div class="tree_left_top" style="height: 90%;overflow: auto">
+            <div style="width: 100%;margin-top: 5px;">
+                <div style="margin-left: 30px;">
+                    <a class="btn btn-default" onclick="resetTree()">
+                        <span class="glyphicon glyphicon-refresh"></span>刷新</a>
+<!--                    <a class="btn btn-default" onclick="switchView('user')">-->
+<!--                        <span class="glyphicon glyphicon-user"></span>用户</a>-->
+                    <a class="btn btn-default" onclick="addView()">
+                        <span class="glyphicon glyphicon-plus"></span>新增</a>
+                    <a class="btn btn-default" onclick="deleteData()">
+                        <span class="glyphicon glyphicon-remove"></span>删除</a>
+                </div>
+            </div>
+            <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                <p><ul id="leftTree" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+<!--            <div class="b-m-mpanel" style="width: 150px;visibility:hidden;" id="rMenu">-->
+<!--                <div class="b-m-item" id="m_add" onclick="addTreeNode();">-->
+<!--                    <img align="middle" src="/libs/images/icons/add.png"/><span>增加节点</span>-->
+<!--                </div>-->
+<!--                <div class="b-m-item" id="m_del" onclick="removeTreeNode();">-->
+<!--                    <img align="middle" src="/libs/images/icons/close.png"/><span>删除节点</span>-->
+<!--                </div>-->
+<!--                <div class="b-m-item" id="m_check" onclick="checkTreeNode(true);">-->
+<!--                    <img align="middle" src="/libs/images/icons/ico4.gif"/><span>勾选节点</span>-->
+<!--                </div>-->
+<!--                <div class="b-m-item" id="m_unCheck" onclick="checkTreeNode(false);">-->
+<!--                    <img align="middle" src="/libs/images/icons/ico4-3.gif"/><span>取消勾选节点</span>-->
+<!--                </div>-->
+<!--                <div class="b-m-item" id="m_reset" onclick="resetTree();">-->
+<!--                    <img align="middle" src="/libs/images/icons/ico4-1-1.gif"/><span>恢复</span>-->
+<!--                </div>-->
+<!--            </div>-->
+            </div>
+        </div>
+    </div>
+    <div id="dept_view" class="l_left news_right">
+        <h6>部门详情</h6>
+        <form id="form" onsubmit="return false">
+            <!--隐藏字段-->
+            <input type="hidden" name="id" id="id" value="0" />
+            <input type="hidden" name="pid" id="pid" value="0" />
+            <input type="hidden" name="level" id="level" value="1"/>
+
+            <div class="department_main">
+                <label>上级部门：</label>
+                <span class="dropdown">
+                    <input class="dropdown_select"  id="dropdownMenu1"
+                           data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="true" placeholder="--集团总部--" readonly required />
+                    <span class="caret"></span>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 247px">
+                        <div class=" order_ztree l_left organize_ztree" style="width: 100%;background-color: #fff;
+                                            padding-bottom: 10px;height: 240px;overflow: auto;">
+                            <ul id="formTree" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>
+                        </div>
+                    </div>
+                </span>
+                <label>部门名称：</label>
+                <input type="text" id="name" name="name" required minlength="2"/>
+            </div>
+
+            <div class="department_main">
+                <label>部门编号：</label><input id="num" name="num" type="text" />
+                <label>负责人：</label><input id="boss" name="boss" type="text" />
+            </div>
+
+            <div class="department_main">
+                <label>部门简称：</label><input id="abbr" name="abbr" type="text" />
+                <label>部门性质：</label><input id="type" name="type" type="text" />
+            </div>
+
+            <div class="department_main">
+                <label>部门电话：</label><input id="tel" name="tel" type="text" />
+                <label>部门邮箱：</label><input id="email" name="email" type="text" />
+            </div>
+
+            <div class="department_main">
+                <label style="float: left;line-height: 200px">部门备注：</label>
+                <textarea id="desp" name="desp"></textarea>
+            </div>
+
+            <div align="center" style="margin-top: 10px">
+                <button id="save_btn" type="submit" class="btn btn-primary" >立即保存</button>
+            </div>
+        </form>
+    </div>
+    <div id="dept_user" class="l_left news_right" style="display: none">
+        <h6>部门用户</h6>
+        <div class="notice_check">
+            <div class="btn-group l_left" style="margin-right: 4px">
+                <button type="button" class="btn btn-default change" style="height: 30px;line-height: 30px;padding: 0 12px !important;font-size: 12px">选择条件</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 30px;line-height: 30px">
+                    <span class="caret"></span>
+                    <span class="sr-only"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>部门名称</li>
+                    <li>部门编号</li>
+                    <li>负责人</li>
+                    <li>电话号</li>
+                    <li>分机号</li>
+                </ul>
+            </div>
+            <div class="l_left">
+                <input type="text" class="find_input">
+
+            </div>
+            <button class="check_btn">查询</button>
+            <div class="notice_nav r_right">
+                <a class="btn btn-default" onclick="addUser()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                <a class="btn btn-default" onclick="reset_password()"><span class="glyphicon glyphicon-lock"></span>重置密码</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <ul class="news_table department_table">
+            <li>
+                <table id="table" class="table_style" style="margin: 0 auto" ></table>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+
+</div>
+
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::table_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+
+<script  th:inline="javascript">
+    let runtime  = [[${session.session_runtime}]]
+
+    //保存方法
+    $("#form").submit(function () {
+        console.log("ajax...")
+        $.ajax({
+            type: "post",
+            url: "add",
+            data:JSON.stringify($('#form').serializeObject()),
+            async:true, // 异步请求
+            cache:false, // 设置为 false 将不缓存此页面
+            dataType: "json", // 返回对象
+            contentType:"application/json;charset=UTF-8",
+            success: function(res) {
+                if (res.code == "0") {
+                    layer.alert("操作成功~");
+                    resetTree();
+                }else {
+                    layer.alert("["+res.code+"]"+res.msg, {
+                        skin: 'layui-layer-lan'
+                        ,closeBtn: 0
+                    });
+                }
+            },
+            error: function(e) {
+                // 请求失败函数
+                console.log("error:"+JSON.stringify(e));
+                layer.msg("操作失败，请检查是否有相关操作权限！");
+            }
+        })
+    })
+</script>
+</body>
+</html>

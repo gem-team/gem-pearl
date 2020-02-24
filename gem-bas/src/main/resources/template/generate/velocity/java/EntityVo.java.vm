@@ -1,0 +1,32 @@
+package ${package}.${moduleName}.entity;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+public class ${className} extends BaseVo {
+
+	#foreach ($column in $columns)
+	/**
+	 * $column.comments
+	 */
+		private $column.attrType $column.attrname;
+	#end
+}

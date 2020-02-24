@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页 | GemFrame开源权限管理系统v1.0.0</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="static/js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/custom/index.css">
+    <script src="static/js/jquery/jQuery-2.2.0.min.js"></script>
+    <script src="static/js/charts/Chart.js"></script>
+    <script  src="static/js/echarts/echarts-all.js"></script>
+    <script>
+        $(function () {
+            Canvas1();
+            Canvas2();
+
+        });
+        function Canvas1() {
+            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+            var doughnutData = [
+                {
+                    value: randomScalingFactor(),
+                    color: "#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "个人提案"
+                },
+                {
+                    value: randomScalingFactor(),
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "民主党派"
+                },
+                {
+                    value: randomScalingFactor(),
+                    color: "#FDB45C",
+                    highlight: "#FFC870",
+                    label: "人民团体"
+                },
+                {
+                    value: randomScalingFactor(),
+                    color: "#949FB1",
+                    highlight: "#A8B3C5",
+                    label: "其它党派"
+                }
+            ];
+            var ctx = document.getElementById("Canvas1").getContext("2d");
+            window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, { responsive: false });
+        }
+        function Canvas2() {
+            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+            var lineChartData = {
+                labels: ["满意", "一般", "不满意", "有待改善", "其它", ],
+                datasets: [
+                    {
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                    }
+                ]
+            }
+            var ctx = document.getElementById("Canvas2").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                bezierCurve: false,
+            });
+        }
+//        function Canvas3() {
+//            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+//            var lineChartData = {
+//                labels: ["未整理", "已整理", "待审核", "已审核", "未交办", "已交办", "未办理", "已办理", "未反馈", "已反馈", "未办结", "已办结"],
+//                datasets: [
+//                    {
+//                        fillColor: "#578ebe",
+//                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+//                    }
+//                ]
+//            }
+//            var ctx = document.getElementById("Canvas3").getContext("2d");
+//            window.myLine = new Chart(ctx).Bar(lineChartData, {
+//                bezierCurve: false,
+//
+//            });
+//        }
+    </script>
+    <script>
+        $(function(){
+            var myChart = echarts.init($("#bar01")[0]);
+            option = {
+
+                tooltip: {
+                    trigger: 'item'
+                },
+
+                calculable: true,
+                grid: {
+                    borderWidth: 0,
+                    y: 80,
+                    y2: 60
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        splitLine:{show: false},
+                        show: true,
+                        data: ['农业水利', '科学技术', '教育', '政治法律', '城乡教育', '公交邮电', '城乡建设', '经济发展', '城市规划', '公共卫生', '社会福利']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        show: true,
+                        splitLine:{show: false}
+                    }
+                ],
+                series: [
+                    {
+                        name: '提案分类统计图',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                color: function(params) {
+                                    // build a color map as your need.
+                                    var colorList = [
+                                        '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                                        '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                                        '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                                    ];
+                                    return colorList[params.dataIndex]
+                                },
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{b}\n{c}'
+                                }
+                            }
+                        },
+                        data: [120,210,100,40,120,50,60,50,250,230,70],
+                        markPoint: {
+                            tooltip: {
+                                trigger: 'item',
+                                backgroundColor: 'rgba(0,0,0,0)',
+                                formatter: function(params){
+                                    return '<img src="'
+                                            + params.data.symbol.replace('image://', '')
+                                            + '"/>';
+                                }
+                            },
+                            data: [
+                                // {xAxis:0, y: 350, name:'Line', symbolSize:20, symbol: 'image://../asset/ico/折线图.png'},
+                                // {xAxis:1, y: 350, name:'Bar', symbolSize:20, symbol: 'image://../asset/ico/柱状图.png'},
+                                // {xAxis:2, y: 350, name:'Scatter', symbolSize:20, symbol: 'image://../asset/ico/散点图.png'},
+                                // {xAxis:3, y: 350, name:'K', symbolSize:20, symbol: 'image://../asset/ico/K线图.png'},
+                                // {xAxis:4, y: 350, name:'Pie', symbolSize:20, symbol: 'image://../asset/ico/饼状图.png'},
+                                // {xAxis:5, y: 350, name:'Radar', symbolSize:20, symbol: 'image://../asset/ico/雷达图.png'},
+                                // {xAxis:6, y: 350, name:'Chord', symbolSize:20, symbol: 'image://../asset/ico/和弦图.png'},
+                                // {xAxis:7, y: 350, name:'Force', symbolSize:20, symbol: 'image://../asset/ico/力导向图.png'},
+                                // {xAxis:8, y: 350, name:'Map', symbolSize:20, symbol: 'image://../asset/ico/地图.png'},
+                                // {xAxis:9, y: 350, name:'Gauge', symbolSize:20, symbol: 'image://../asset/ico/仪表盘.png'},
+                                // {xAxis:10, y: 350, name:'Funnel', symbolSize:20, symbol: 'image://../asset/ico/漏斗图.png'},
+                            ]
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        });
+    </script>
+</head>
+<body>
+    <div id="areascontent">
+        <div class="rows" style="margin-bottom: 0.8%; overflow: hidden;">
+            <div style="float: left; width: 69.2%;">
+                <div style="height: 100%; border: 1px solid #e6e6e6; overflow: hidden;">
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #578ebe;">
+                            <div class="stat-icon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                            <h2 class="m-top-none">17<span>件</span></h2>
+                            <h5>等待付款订单</h5>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #e35b5a;">
+                            <h2 class="m-top-none">12<span>件</span></h2>
+                            <h5>付款超时订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #44b6ae;">
+                            <h2 class="m-top-none">20<span>件</span></h2>
+                            <h5>已付款订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #8775a7;">
+                            <h2 class="m-top-none">6<span>件</span></h2>
+                            <h5>已发货订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #f29503;">
+                            <h2 class="m-top-none">6<span>件</span></h2>
+                            <h5>配送超时订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #4f5c65;">
+                            <h2 class="m-top-none">4<span>件</span></h2>
+                            <h5>交易关闭订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #14aae4;">
+                            <h2 class="m-top-none">5<span>件</span></h2>
+                            <h5>交易成功订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stats">
+                        <div class="dashboard-stats-item" style="background-color: #949FB1;">
+                            <h2 class="m-top-none">3<span>件</span></h2>
+                            <h5>申请退货订单</h5>
+                            <div class="stat-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 221px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-area-chart fa-lg" style="padding-right: 5px;"></i>客户满意度调查</div>
+                        <div class="panel-body">
+                            <canvas id="Canvas2" style="height: 165px; width: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rows" style="margin-bottom: 0.8%; overflow: hidden;">
+            <div style="float: left; width: 69.2%;">
+                <div style="height: 290px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-bar-chart fa-lg" style="padding-right: 5px;"></i>合作领域分析</div>
+                        <div class="panel-body">
+                            <p  id="bar01" style="height: 250px; width: 100%;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 290px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>用户来源</div>
+                        <div class="panel-body">
+                            <canvas id="Canvas1" style="height: 180px; width: 100%; margin-top: 10px;"></canvas>
+                            <div style="text-align: center; padding-top: 15px;">
+                                <span><i class="fa fa-square" style="color: #F7464A; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>官方社区</span>
+                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #46BFBD; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>GitHub</span>
+                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #FDB45C; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>码云</span>
+                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #949FB1; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>其他</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="rows" style="overflow: hidden;">
+            <div style="float: left; width: 33.8%; margin-right: 0.8%;">
+                <div style="height: 240px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>社情民意</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li><a href="javascript:void(0)">关于江北区教育“学区化建设”的思考</a><span class="time">2016-07-02</span></li>
+                                <li><a href="javascript:void(0)">关于通过互联网+模式推进政协委员参政议政的建议</a><span class="time">2016-06-18</span></li>
+                                <li><a href="javascript:void(0)">区政协召开社情民意工作半年总结会</a><span class="time">2016-06-26</span></li>
+                                <li><a href="javascript:void(0)">区政协召开社情民意工作半年总结会</a><span class="time">2016-04-20</span></li>
+                                <li><a href="javascript:void(0)">区政协召开社情民意专委会信息站工作会议</a><span class="time">2016-03-08</span></li>
+                                <li><a href="javascript:void(0)">区政协召开社情民意工作半年总结会</a><span class="time">2016-02-22</span></li>
+                                <li><a href="javascript:void(0)">区政协召开社情民意工作半年总结会</a><span class="time">2016-02-15</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: left; width: 34.6%; margin-right: 0.8%;">
+                <div style="height: 240px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-rss fa-lg" style="padding-right: 5px;"></i>通知公告</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li><a href="javascript:void(0)">【通知】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【公告】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【公告】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【通知】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【通知】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【通知】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">【公告】区政协召开2017年委员地区组工作会议</a><span class="time">2016-07-21</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 30%;">
+                <div style="height: 240px; border: 1px solid #e6e6e6; background-color: #fff;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><i class="fa fa-thumbs-o-up fa-lg" style="padding-right: 5px;"></i>值班周报</div>
+                        <div class="panel-body">
+                            <ul>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-21</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-20</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-19</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-17</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-17</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-13</span></li>
+                                <li><a href="javascript:void(0)">210期值班周报信息</a><span class="time">2016-07-12</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

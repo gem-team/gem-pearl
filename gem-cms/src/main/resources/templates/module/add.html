@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+    <div th:replace="common/links::layui_links"></div>
+    <style>
+        .gem-table td, .gem-table th {
+            position: relative;
+            padding: 3px 5px;
+            min-height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body style="border-radius: 8px;width: 95%;overflow: hidden">
+<div>
+    <div class="warrant_nav">
+        <ul>
+            <li class="warrant_active"><span class="step">1</span>模块信息<span class="chevron"></span></li>
+            <li><span class="step">2</span>属性信息<span class="chevron"></span></li>
+<!--            <li><span class="step">3</span>生成代码<span class="chevron"></span></li>-->
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="warrant_main">
+        <div class="tree_left" style="display: block">
+            <div class="top">
+                <form id="form" onsubmit="return false">
+                    <table class="table">
+                        <input type="hidden" id="isGenerate" name="isGenerate" class="block" required/>
+                        <tbody>
+                        <tr>
+                            <td>代码包名
+                                <span class="span">*</span></td>
+                            <td>
+                                <input type="text" id="packageName" name="packageName" class="block" required
+                                       maxlength="30" value="com.gemframework">
+                            </td>
+                            <td>模块名[英]
+                                <span class="span">*</span></td>
+                            <td>
+                                <input type="text" id="nameEn" name="nameEn" class="block" required maxlength="50" VALUE="TV">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>模块名[中]<span class="span">*</span></td></td>
+                            <td>
+                                <input type="text" id="nameCn" name="nameCn" class="block" required maxlength="80" value="TV">
+                            </td>
+                            <td>主键名称
+                                <span class="span">*</span></td>
+                            <td>
+                                <input type="text" id="pkNane" name="pkNane" class="block" required maxlength="60" value="NAME">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>添加方法
+                                <span class="span">*</span></td>
+                            <td>
+                                <select id="isAdd" name="isAdd" class="block">
+                                    <option value="1">支持</option>
+                                    <option value="0">不支持</option>
+                                </select>
+                            </td>
+                            <td>编辑方法
+                                <span class="span">*</span></td>
+                            <td>
+                                <select id="isEdit" name="isEdit" class="block">
+                                    <option value="1">支持</option>
+                                    <option value="0">不支持</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>删除方法
+                                <span class="span">*</span></td>
+                            <td>
+                                <select id="isDel" name="isDel" class="block">
+                                    <option value="1">支持</option>
+                                    <option value="0">不支持</option>
+                                </select>
+                            </td>
+                            <td>查询方法
+                                <span class="span">*</span></td>
+                            <td>
+                                <select id="isQuery" name="isQuery" class="block">
+                                    <option value="1">支持</option>
+                                    <option value="0">不支持</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>作者签名</td>
+                            <td>
+                                <input type="text" id="author" name="author" class="block" required minlength="1" value="gemteam">
+                            </td>
+                            <td>文本框格式</td>
+                            <td>
+                                <select id="style" name="style" class="block">
+                                    <option value="">标准格式 建议宽度：550px</option>
+                                    <option value="block">长文本框 建议宽度：550px</option>
+                                    <option value="doubleRow">双排排列 建议宽度：750px</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>页面宽度</td>
+                            <td>
+                                <input type="text" id="pageWidth" name="pageWidth" class="block" maxlength="10" value="550">
+                            </td>
+                            <td>页面高度</td>
+                            <td>
+                                <input type="text" id="pageHeight" name="pageHeight" class="block" maxlength="10" value="450">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <!--底部按钮-->
+            <div class="notice_bot">
+                <div class="r_right but_p">
+                    <button class="but_save" type="button" onclick="nextTab(1)">下一步</button>
+                    <button class="but_close" onclick="Colse()">关闭</button>
+                </div>
+            </div>
+        </div>
+        <div class="tree_left" style="display: none">
+            <div class="layui-container">
+                <div class="layui-row">
+                    <div class="layui-form" lay-filter="freshform">
+                        <table class="layui-table gem-table" lay-filter="test">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;width: 40px">排序</th>
+                                <th style="text-align: center">字段名称</th>
+<!--                                <th style="text-align: center">唯一</th>-->
+                                <th style="text-align: center">类型</th>
+                                <th style="text-align: center">最小长度</th>
+                                <th style="text-align: center">最大长度</th>
+                                <th style="text-align: center">说明</th>
+                                <th style="text-align: center;">允许为空</th>
+                                <th style="text-align: center;">是否可见</th>
+                                <th style="text-align: center;">支持排序</th>
+                                <th style="text-align: center;">支持查询</th>
+                                <th style="text-align: center;width: 80px;">
+                                    <i id="add-btn" class="layui-icon layui-icon-add-circle add-btn" style="font-size: 20px; color: #1E9FFF;"></i>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="addlists">
+                            <tr>
+                                <td>
+                                    <input type="text" id="attrSort" class="layui-input" value="1" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="attrName" class="layui-input" value="id" readonly>
+                                </td>
+<!--                                <td>-->
+<!--                                    <input type="checkbox" checked="" id="唯一" lay-skin="switch" lay-filter="" lay-text="ON|OFF">-->
+<!--                                </td>-->
+                                <td>
+                                    <select lay-filter="">
+                                        <option value="hidden">隐藏类型</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" id="minLength" class="layui-input" value="1" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="maxLength" class="layui-input" value="20" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="comment" class="layui-input" value="自增ID" readonly>
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked="" id="isNull" lay-skin="switch" lay-filter="" lay-text="ON|OFF">
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked="" id="isVisit" lay-skin="switch" lay-filter="" lay-text="ON|OFF">
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked="" id="isSort" lay-skin="switch" lay-filter="" lay-text="ON|OFF">
+                                </td>
+                                <td>
+                                    <input type="checkbox" checked="" id="isSearch" lay-skin="switch" lay-filter="" lay-text="ON|OFF">
+                                </td>
+                                <td style="text-align: center">
+                                    <!--                                            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm btn-del" lay-event="del">删除</button>-->
+                                    <i class="layui-icon layui-icon-reduce-circle" style="font-size: 18px; color: #9E9E9E;"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--底部按钮-->
+            <div class="notice_bot">
+                <div class="l_left">
+                    <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+                </div>
+                <div class="r_right but_p">
+                    <button class="but_last" type="button" onclick="nextTab(0)">上一步</button>
+                    <button class="but_save" type="button" onclick="addData()">立即保存</button>
+                    <button class="but_close" onclick="Colse()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/links::jquery_script"></div>
+<div th:replace="common/links::layui_script"></div>
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::table_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<div th:replace="common/links::multiselect_script"></div>
+<div th:replace="common/links::validate_script"></div>
+<script type="text/javascript" th:src="@{/static/js/custom/addattrs.js}"></script>
+<script>
+    $(function () {
+        tabNav();
+        clickTab();
+
+    })
+
+    // 遍历nav
+    function tabNav(){
+        $(".warrant_nav ul li").each(function(index){
+            $(this).click(function(){
+                if(index == 1){
+                }
+                $(".warrant_nav ul li").removeClass("warrant_active");
+                $(this).addClass("warrant_active");
+                $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+            })
+        })
+    }
+
+    function clickTab(){
+        $("#name").click(function(){
+            $("#tree").show();
+        })
+    }
+
+    function nextTab(index) {
+        //第一步：校验表单
+        if($("#form").valid()){
+            var count = 0;
+            $(".warrant_nav ul li").each(function(){
+                if(count == index){
+                    $(".warrant_nav ul li").removeClass("warrant_active");
+                    $(this).addClass("warrant_active");
+                    $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+                }
+                count++;
+            });
+        }
+    }
+
+    var formData = $('#form').serializeObject();
+    function addData() {
+        //重新序列化form
+        formData = $('#form').serializeObject();
+
+        //获取属性列表
+        var attrsData = [];
+        $('table .addlists tr').each(function() {
+            var attrRow = {};
+            $(this).find('input,select').each(function() {
+                let $input = $(this)
+                if($input.attr('name')!=undefined){
+                    attrRow[$input.attr('name')] = $input.val()
+                }
+            })
+            if(Object.keys(attrRow).length > 0){
+                attrsData.push(attrRow)
+            }
+        })
+        formData.moduleAttrs = attrsData;
+        let ajaxData = JSON.stringify(formData);
+        console.log("提交参数="+ajaxData);
+        if ($("#form").valid()) {
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: ajaxData,
+                async: true, // 异步请求
+                cache: false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    if (res.code == "0") {
+                        if ($("#btn_save_close").is(':checked')) {
+                            alert("保存成功", Colse);
+                        }
+                    } else {
+                        layer.alert("[" + res.code + "]" + res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function (e) {
+                    // 请求失败函数
+                    console.log("error:" + JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }
+    }
+
+    function Colse() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</body>
+</html>

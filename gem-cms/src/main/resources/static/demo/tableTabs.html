@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无标题文档</title>
+    <link href="js/bstable/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="js/bstable/css/bootstrap-table.css" rel="stylesheet" type="text/css">
+    <link href="css/table.css" rel="stylesheet" type="text/css">
+    <style>
+        .notice_main1{border: none !important;}
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            min-width: 1100px;
+            overflow: auto;
+        }
+
+        #box {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto 0;
+        }
+
+        #tabs ul {
+            height: 31px;
+            border-left: #ccc solid 1px;
+            border-bottom: #ccc solid 1px;
+        }
+
+        #tabs ul li {
+            float: left;
+            border-top: #ccc solid 1px;
+            border-right: #ccc solid 1px;
+        }
+
+        #tabs ul li a {
+            display: block;
+            padding: 0 12px;
+            line-height: 29px;
+            border: white solid 1px;
+            border-bottom: none;
+            background-color: #e0e0e0;
+            color: #271d1e;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /*当一个标题a获得焦点时的样式*/
+        #tabs ul li .current {
+            border-bottom: white solid 1px;
+            background-color: white;
+        }
+
+        #box_main {
+            border: #ccc solid 1px;
+            border-top: none;
+            background-color: #fff;
+            height: 650px;
+        }
+
+        #box_main h3 {
+            line-height: 47px;
+            font-size: 22px;
+            color: #434142;
+            border-bottom: #e2e2e2 dashed 1px;
+            margin-bottom: 10px;
+        }
+
+        /*让一开始，所有的内容面板隐藏*/
+        #box_main > div {
+            /*padding: 9px 20px 17px 20px;*/
+            display: none;
+        }
+
+        /*一开始，第一个内容面板显示*/
+        #box_main #gallery {
+            display: block;
+        }
+
+        #box_main > div > div {
+            padding: 5px;
+            border: #dddddd solid 1px;
+            margin-right: 18px;
+            margin-bottom: 33px;
+            float: left;
+        }
+
+        #box_main p {
+            color: #999999;
+            font-size: 12px;
+            line-height: 21px;
+        }
+    </style>
+    <script src="js/jquery-2.2.0.min.js"></script>
+    <script>
+        $(init);
+        function init(){
+            // 遍历每一个li
+            $("#tabs .title").find("li").each(function(index){
+                $(this).on("click",function(){
+                    $(this).siblings().find("a").removeClass("current");
+                    $(this).find("a").addClass("current");
+                    $("#box_main>div").eq(index).fadeIn().siblings().stop().hide();
+                });
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+<div id="box">
+    <div id="tabs">
+        <ul class="title">
+            <li><a href="javascript:void(0)" class="current">选项卡一</a></li>
+            <li><a href="javascript:void(0)">选项卡二</a></li>
+            <li><a href="javascript:void(0)">选项卡三</a></li>
+            <li><a href="javascript:void(0)">选项卡四</a></li>
+        </ul>
+    </div>
+    <div id="box_main">
+        <div id="gallery">
+            <div class="notice_main notice_main1">
+                <div class="notice_check" style="padding: 16px 15px 8px 15px">
+                    <p>
+                        <label class="">角色编号：</label>
+                        <input type="text" class="find_input">
+                        <label class="">角色名称：</label>
+                        <input type="text" class="find_input">
+                        <label class="">角色描述：</label>
+                        <input type="text" class="find_input">
+                    </p>
+                </div>
+                <div class="notice_check  notice_check_last">
+                    <p class="l_left">
+                        <label class="">项目类型：</label>
+                        <select class="find_input"><option>全部</option><option>1</option></select>
+                        <label class="">状态：</label>
+                        <select class="find_input"><option>全部</option><option>1</option></select>
+                        <label class="">项目描述：</label>
+                        <input type="text" class="find_input last_input">
+                        <button class="check_btn">查询</button>
+                    </p>
+                    <div class="notice_nav r_right">
+                        <a class="btn btn-default" onclick="addRole()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                        <a class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                        <a class="btn btn-default" onclick="addRole()"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <table id="table" class="table_style" style="margin: 0 auto" > </table>
+            </div>
+        </div>
+        <div class="submit">
+
+        </div>
+        <div class="resources">
+
+        </div>
+        <div class="contact">
+
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="js/bstable/js/bootstrap.min.js"></script>
+<script src="js/bstable/js/bootstrap-table.js"></script>
+<script src="js/bstable/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="js/layer_v2.1/layer/layer.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#table').bootstrapTable({
+            method: "get",
+            striped: true,
+            singleSelect: false,
+            url: "json/role.json",
+            dataType: "json",
+            pagination: true, //分页
+            pageSize: 10,
+            pageNumber: 1,
+            search: false, //显示搜索框
+            contentType: "application/x-www-form-urlencoded",
+            queryParams: null,
+            columns: [
+                {
+                    checkbox: "true",
+                    field: 'check',
+                    align: 'center',
+                    valign: 'middle'
+                }
+                ,
+                {
+                    title: "角色编号",
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '角色名称',
+                    field: 'title',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '创建时间',
+                    field: 'date',
+                    align: 'center',
+                    valign: 'middle'
+                },
+
+                {
+                    title: '角色描述',
+                    field: 'person',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+    function addRole(){
+        layer.open({
+            type: 2,
+            title: '添加角色',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:1,
+            area: ['700px', '474px'],
+            content: 'user_tail.html'
+        });
+    }
+    function warrant(){
+        layer.open({
+            type: 2,
+            title: '角色授权',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:1,
+            area: ['700px', '474px'],
+            content: 'user_tail.html'
+        });
+    }
+</script>
+</html>

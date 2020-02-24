@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    # dev 开发 prod 生产 test 测试（demo）
+    active: dev
+

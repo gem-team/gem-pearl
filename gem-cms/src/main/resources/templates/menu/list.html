@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="fullscreen-bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::treetable_list_links"></div>
+    <style>
+        th{text-align: center !important;height: 34px;color: #FFF ;font-weight: bold;}
+    </style>
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+<div class="notice_main">
+    <div class="notice_check  notice_check_last" style="height: 40px;">
+        <div class="notice_nav r_left"  style="position: fixed">
+            <a class="btn btn-default" onclick="resetSideMenus()"><span class="glyphicon glyphicon-transfer"></span>同步左侧菜单</a>
+            <a class="btn btn-default" onclick="addView()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+            <a class="btn btn-default" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span>刷新</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <table id="menusTree" class="table table-bordered">
+        <thead>
+             <tr>
+                 <th style="width:250px;font-weight: bold">资源名称</th>
+                 <th style="width:80px;font-weight: bold">类型</th>
+                 <th style="width:80px;font-weight: bold">图标</th>
+                 <th style="width:80px;font-weight: bold">排序</th>
+                 <th style="font-weight: bold">跳转路由</th>
+                 <th style="font-weight: bold;width: 220px;">操作</th>
+             </tr>
+        </thead>
+        <tbody>
+            <tr th:each="menu:${list_menus}" th:data-tt-id="${menu.idPath}" th:data-tt-parent-id="${menu.parentIdPath}" >
+                <td class="align_left_col">
+                    <span class="folder"></span>
+                    <span th:if="${menu.level == 1}">
+                        <b th:text="${menu.name}"></b>
+                    </span>
+                    <span th:if="${menu.level != 1}">
+                        <span th:text="${menu.name}"></span>
+                    </span>
+                </td>
+                <td th:switch="${menu.type}">
+                    <span th:case="0" class="badge badge-primary">菜单</span>
+                    <span th:case="1" class="badge badge-warning">按钮</span>
+                    <span th:case="2" class="badge badge-info">权限</span>
+                </td>
+                <td>
+                    <i th:class="${menu.icon}"></i>
+                </td>
+                <td><span th:text="${menu.sortNumber}"></span></td>
+                <td class="align_left_col">
+                    <span th:text="${menu.link}"></span>
+                </td>
+                <td>
+                    <button type="button" id="btn_edit" class="btn btn-primary btn-xs"
+                            th:onclick="|editView(${menu.id})|">编辑</button>
+                    <button type="button" id="btn_del" class="btn btn-danger btn-xs"
+                            th:onclick="|deleteData(${menu.id})|">删除</button>
+                    <button type="button" id="btn_add" class="btn btn-warning btn-xs"
+                            th:onclick="|addChildView(${menu.id})|">添加子节点</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="common/links::common_script"></div>
+<script th:src="@{/static/js/jquery.treetable.js}"></script>
+<script  th:inline="javascript">
+
+    let runtime  = [[${session.session_runtime}]]
+
+    $("#menusTree").treetable({
+        expandable: true,
+        clickableNodeNames:true,//点击节点名称也打开子节点.
+        expanderTemplate : "<i class='far fa-plus-square'></i>",
+        indent : 30,//每个分支缩进的像素数。
+        initialState:"expanded",//初始化状态 expanded：展开 collapsed:关闭
+        onNodeExpand: function(){
+            let node = this;
+        },
+    });
+
+    //添加
+    function addView(){
+        layer.open({
+            type: 2,
+            title: '添加资源',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:0,
+            area: ['690px', '440px'],
+            content: 'add.html',
+            end:function () {
+            }
+        });
+    }
+
+
+    //添加子节点
+    function addChildView(id){
+        window.id = id;
+        layer.open({
+            type: 2,
+            title: '添加子节点',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:0,
+            area: ['690px', '440px'],
+            content: 'addChild.html?id='+id,
+            end:function () {
+                // //TODO：研究treeTable api
+                // location.reload();
+                // $("#menusTree").treetable("expandNode","02");
+                // $("#menusTree").treetable("collapseAll");
+            }
+        });
+    }
+
+    //编辑
+    function editView(id){
+        if(runtime == "demo"){
+            layer.msg("演示环境，不允许操作！", {icon:4});
+            return;
+        }
+        window.id = id;
+        layer.open({
+            type: 2,
+            title: '编辑资源',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:0,
+            area: ['690px', '440px'],
+            content: 'edit.html?id='+id,
+            end:function () {
+                // //TODO：研究treeTable api
+                // location.reload();
+                // $("#menusTree").treetable("expandNode","02");
+                // $("#menusTree").treetable("collapseAll");
+            }
+        });
+    }
+
+    function deleteData(id){
+        if(runtime == "demo"){
+            layer.msg("演示环境，不允许操作！", {icon:4});
+            return;
+        }
+        layer.confirm('确定删除吗？亲~', {
+            btn: ['确定','再想想'] //按钮
+            ,closeBtn:0
+        }, function(){
+            $.ajax({
+                type: "post",
+                url: "delete",
+                data:{"id":id},
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                // contentType:"application/json;charset=UTF-8",
+                success: function(res) {
+                    console.log("res:"+JSON.stringify(res));
+                    if (res.code == "0") {
+                        layer.msg('删除成功！', {icon: 1});
+                        location.reload();
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }, function(){
+            return;
+        });
+    }
+
+    function resetSideMenus(){
+        $.ajax({
+            type: "GET",
+            url: "../common/resetSideMenus",
+            async:true, // 异步请求
+            cache:false, // 设置为 false 将不缓存此页面
+            dataType: "json", // 返回对象
+            contentType:"application/json;charset=UTF-8",
+            success: function(res) {
+                console.log("res:"+JSON.stringify(res));
+                if (res.code == "0") {
+                    layer.msg('同步成功，请刷新左侧菜单！', {icon: 1});
+                }else {
+                    layer.alert("["+res.code+"]"+res.msg, {
+                        skin: 'layui-layer-lan'
+                    });
+                }
+            },
+            error: function(e) {
+                // 请求失败函数
+                console.log("error:"+JSON.stringify(e));
+                layer.msg("操作失败，请检查是否有相关操作权限！");
+            }
+        })
+    }
+</script>
+</body>
+</html>

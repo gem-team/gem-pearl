@@ -1,0 +1,305 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+    <style>
+        .dropdown-menu{
+            width: 247px
+        }
+    </style>
+</head>
+<body style="border-radius: 8px;width: 690px;overflow: hidden">
+<form id="form" onsubmit="return false">
+    <div class="top">
+        <div>
+            <div class="top_out">
+                <table class="table">
+                    <tbody>
+                    <input type="hidden" id="id" name="id" th:value="${edit_user.id}">
+                    <tr>
+                        <td>归属部门<span class="span"></span></td>
+                        <td>
+                            <div class="dropdown">
+                                <input type="hidden" id="dept_id" name="dept_id" th:value="${edit_user.dept_id}">
+                                <input class="dropdown_select"  id="dropdownMenu1" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="true" placeholder="--请选择--"  th:value="${edit_user.dept.name}">
+                                <span class="caret"></span>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="width: 247px">
+                                    <div class=" order_ztree l_left organize_ztree" style="width: 100%;background-color: #fff;
+                                            padding-bottom: 10px;height: 240px;overflow: auto;">
+                                        <ul id="formTree" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>授予角色<span class="span"></span></td>
+                        <td>
+                            <select id="multiselect" class="multiselect" multiple="multiple">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>用户帐号<span class="span">*</span></td>
+                        <td><input type="text" id="username" name="username" required   minlength ="2" th:value="${edit_user.username}"></td>
+                        <td>用户密码<span class="span"></span></td>
+                        <td>
+                            <input type="password" id="password" name="password" class="long_text" value="" placeholder="温馨提示：请勿使用弱密码">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>员工工号<span class="span">*</span></td>
+                        <td><input type="number" id="worknum" name="worknum" required maxlength="5" th:value="${edit_user.worknum}"></td>
+                        <td>所在岗位<span class="span"></span></td>
+                        <td>
+                            <select id="post" name="post">
+                                <option th:selected="${edit_user.post eq '1'}" value="1">初级人员</option>
+                                <option th:selected="${edit_user.post eq '2'}" value="2">中级人员</option>
+                                <option th:selected="${edit_user.post eq '3'}" value="3">高级人员</option>
+                                <option th:selected="${edit_user.post eq '4'}" value="4">领导班子</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>员工姓名<span class="span">*</span></td>
+                        <td><input type="text" id="realname" name="realname" required th:value="${edit_user.realname}"></td>
+                        <td>员工性别<span class="span"></span></td>
+                        <td>
+                            <select id="sex" name="sex">
+                                <option th:selected="${edit_user.sex == 0}" value="0">男</option>
+                                <option th:selected="${edit_user.sex == 1}" value="1">女</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>出生年月<span class="span"></span></td>
+                        <td><input type="date" id="birthday" name="birthday"
+                                   th:value="${edit_user.birthday}==null?null:${#dates.format(edit_user.birthday,'yyyy-MM-dd')}"></td>
+                        <td>户口籍贯<span class="span"></span></td>
+                        <td>
+                            <select id="input_province"  name="province" class="td_select" th:data="${edit_user.province}">
+                                <option value="">-请选择-</option>
+                            </select>
+                            <select id="input_city" name="city" class="td_select"  th:data="${edit_user.city}">
+                                <option value=""></option>
+                            </select>
+                            <select id="input_area" name="area" class="td_select"  th:data="${edit_user.area}">
+                                <option value=""></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>通讯地址<span class="span">*</span></td>
+                        <td colspan="3">
+                            <input type="text" id="address" name="address" class="block" required minlength="5" maxlength="50"  th:value="${edit_user.address}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>手机号码<span class="span">*</span></td>
+                        <td><input type="tel" id="phone" name="phone" required  th:value="${edit_user.phone}"></td>
+                        <td>座机号码<span class="span"></span></td>
+                        <td><input type="text" id="tel" name="tel"  th:value="${edit_user.tel}"></td>
+                    </tr>
+                    <tr>
+                        <td>电子邮箱<span class="span">*</span></td>
+                        <td><input type="email" id="email" name="email" required  th:value="${edit_user.email}"></td>
+                        <td>QQ/微信<span class="span"></span></td>
+                        <td><input type="text" id="qq" name="qq"  th:value="${edit_user.qq}"></td>
+                    </tr>
+                    <tr>
+                        <td>其他备注<span class="span"></span></td>
+                        <td colspan = "8" style="text-align: left">
+                            <textarea id="desp" name="desp"  th:text="${edit_user.desp}"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--底部按钮-->
+    <div class="notice_bot">
+        <div class="l_left">
+            <div class="l_left">
+                <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+            </div>
+        </div>
+        <div class="r_right but_p">
+            <button id="btn_edit" class="btn_edit" type="button" onclick="editData()">立即修改</button>
+            <button class="but_close" onclick="Colse()">关闭</button>
+        </div>
+    </div>
+</form>
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::table_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<div th:replace="common/links::multiselect_script"></div>
+<script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/address.js}"></script>
+<div th:replace="common/links::validate_script"></div>
+<script th:inline="javascript">
+
+    $(function () {
+        initRoleSelect();
+        initRoleOption();
+        reviewDate();
+
+    });
+
+    function reviewDate() {
+        roleArr = [[${edit_user.roles}]];
+        if(roleArr.length >0){
+            var rolename = "";
+            for(var i = 0; i < roleArr.length; i++) {
+                if(roleArr[i] != null){
+                    rolename += roleArr[i].rolename + ',';
+                }
+            }
+            rolename = rolename.substr(0, rolename.length -1) ;
+            $(".multiselect-selected-text").html(rolename);
+        }
+    }
+
+    //编辑数据
+    var ajaxData = JSON.stringify($('#form').serializeObject());
+    var roleArr = [];
+    function editData() {
+
+        if($("#dept_id").val() == ""){
+            layer.alert("请归属部门！");
+            $("#dropdownMenu1").css("border-color", "#eb1815");
+            return;
+        }
+
+        if(roleArr.length == 0){
+            layer.msg("请授予角色！");
+            $(".multiselect").css("border-color", "#eb1815");
+            $(".multiselect").css("color", "#eb1815");
+            return;
+        }
+
+        if($("#form").valid()){
+            var formData = $('#form').serializeObject();
+            formData.roles = roleArr;
+            ajaxData = JSON.stringify(formData);
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: ajaxData,
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType:"application/json;charset=UTF-8",
+                success: function(res) {
+                    if (res.code == "0") {
+                        if($("#btn_save_close").is(':checked')){
+                            alert("修改成功", Colse);
+                        }
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }
+    }
+
+    function initRoleOption() {
+        $.ajax({
+            type: "get",
+            url: "../role/list",
+            data: null,
+            async:true, // 异步请求
+            cache:false, // 设置为 false 将不缓存此页面
+            dataType: "json", // 返回对象
+            contentType:"application/json;charset=UTF-8",
+            success: function(res) {
+                if (res.code == "0") {
+                    var optionHtml = "";
+                    var liHtml = "";
+                    var roleArr = res.data;
+                    for(var i=0;i<roleArr.length;i++){
+                        var liActiveHtml = "";
+                        optionHtml += "<option value='"+roleArr[i].id+"'>"+roleArr[i].rolename+"</option>";
+                        var roles = [[${edit_user.roles}]];
+                        for(var j = 0; j < roles.length; j++) {
+                            if(roles[j] != null){
+                                if(roleArr[i].rolename == roles[j].rolename){
+                                    liActiveHtml = "class='active'";
+                                }
+                            }
+                        }
+                        liHtml += "<li "+liActiveHtml+"><a tabindex='0'><label class='checkbox' title='"+roleArr[i].rolename+"'><input type='checkbox' value='"+roleArr[i].id+"'>"+roleArr[i].rolename+"</label></a></li>";
+                    }
+
+                    $(".multiselect-container").append(liHtml);
+                    $("#multiselect").append(optionHtml);
+                }else {
+                    layer.alert("["+res.code+"]"+res.msg, {
+                        skin: 'layui-layer-lan'
+                        ,closeBtn: 0
+                    });
+                }
+            },
+            error: function(e) {
+                // 请求失败函数
+                console.log("error:"+JSON.stringify(e));
+                layer.msg("操作失败，请检查是否有相关操作权限！");
+            }
+        })
+    }
+
+    function initRoleSelect() {
+        $('.multiselect').multiselect({
+            buttonClass: 'btn',
+            buttonWidth: '247px',
+            selectedList: 10,
+            buttonText: function(options) {
+                $(".multiselect").css("color","");
+                $(".multiselect").css("border-color", "");
+                var tempArr = [];
+                if (options.length == 0) {
+                    roleArr = [];
+                    return '请选择角色';
+                }
+                else {
+                    var selectedText = '';
+                    options.each(function() {
+                        selectedText += $(this).text() + ',';
+                        //组装role参数
+                        var role = new Object();
+                        role.id = $(this).val();
+                        role.name = selectedText;
+                        tempArr.push(role)
+                    });
+                    roleArr = tempArr;
+                    return selectedText.substr(0, selectedText.length -1) ;
+                }
+            }
+        });
+    }
+
+    function Colse() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</body>
+</html>

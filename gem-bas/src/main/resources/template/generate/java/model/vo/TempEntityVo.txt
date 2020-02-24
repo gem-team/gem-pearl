@@ -1,0 +1,34 @@
+package ${package}.model.vo;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+/**
+ * @Title: ${Entity}Vo.java
+ * @Package: ${package}.model.vo
+ * @Date: ${date}
+ * @Version: v1.0
+ * @Description: VO
+
+ * @Author: ${author}
+ * @Copyright: Copyright (c) 2019 GemStudio
+ * @Company: www.gemframework.com
+ */
+
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
+public class ${Entity}Vo extends BaseVo {
+
+    private Long id;
+
+    ${foreignAttr};
+
+    ${isNull_valid}
+    ${isBlack_valid}
+    ${size_valid}
+    ${moblie}
+    ${email}
+    private String ${attrNameEn};
+}

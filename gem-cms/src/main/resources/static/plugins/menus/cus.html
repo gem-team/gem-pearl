@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery左右键上下文菜单代码 - 站长素材</title>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" type="text/css" href="css/zzsc.css">
+	<link rel="stylesheet" href="dist/basicContext.min.css">
+	<link rel="stylesheet" href="dist/themes/default.min.css">
+</head>
+<body>
+	<div class="htmleaf-container">
+		<div class="htmleaf-content">
+			<a href="#" class="click">鼠标左键点击我</a>
+
+			<a href="#" class="context">鼠标右键点击我</a>
+
+			<a href="#" class="touchend">Touch me! (移动手机有效)</a>
+		</div>
+	</div>
+	
+	<script src="dist/basicContext.min.js"></script>
+	<script>
+
+		var onClick = function(e) {
+
+			var clicked = function() { alert('Item clicked!') }
+
+			var items = [
+				{ title: 'Add Sites', icon: 'ion-plus-round', fn: clicked },
+				{ title: 'Reset Login', icon: 'ion-person', fn: clicked },
+				{ title: 'Help', icon: 'ion-help-buoy', fn: clicked },
+				{ title: 'Disabled', icon: 'ion-minus-circled', fn: clicked, disabled: true },
+				{ title: 'Invisible', icon: 'ion-eye-disabled', fn: clicked, visible: false },
+				{ },
+				{ title: 'Logout', icon: 'ion-log-out', fn: clicked }
+			]
+
+			basicContext.show(items, e)
+
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+
+			document.querySelector('a.click').addEventListener('click', onClick)
+			document.querySelector('a.context').addEventListener('contextmenu', onClick)
+			document.querySelector('a.touchend').addEventListener('touchend', onClick)
+
+		})
+
+	</script>
+</div>

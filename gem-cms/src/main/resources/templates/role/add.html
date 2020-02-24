@@ -1,0 +1,254 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+</head>
+<body style="border-radius: 8px;width: 690px;overflow: hidden">
+    <div class="warrant_nav">
+        <ul>
+            <li class="warrant_active"><span class="step">1</span>基本信息<span class="chevron"></span></li>
+            <li><span class="step">2</span>资源授权<span class="chevron"></span></li>
+            <li><span class="step">3</span>数据授权<span class="chevron"></span></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <form id="form" onsubmit="return false">
+        <div class="warrant_main">
+            <div class="tree_left" style="display: block">
+                <div class="top">
+                    <div>
+                        <div class="top_out">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>角色名称<span class="span">*</span></td>
+                                    <td><input type="text" id="rolename" name="rolename" required   minlength ="2"></td>
+                                    <td>角色标识<span class="span">*</span></td>
+                                    <td>
+                                        <input type="text" id="flag" name="flag"  required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>其他备注<span class="span"></span></td>
+                                    <td colspan = "8" style="text-align: left">
+                                        <textarea id="desp" name="desp"></textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left"></div>
+                    <div class="r_right but_p">
+                        <button id="btn_next1" class="but_next" type="button" onclick="nextTab(1)">下一步</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tree_left">
+                <div class="tree_left_top">
+                    <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                        <div class="notice_nav r_left">
+                            <div style="margin-left: 30px;">
+                                <a class="btn btn-default" onclick="CheckAllNodes('checkboxTree')"><span class="glyphicon glyphicon-plus"></span>全选</a>
+                                <a class="btn btn-default" onclick="CancelAllNodes('checkboxTree')"><span class="glyphicon glyphicon-remove"></span>全消</a>
+                            </div>
+                        </div>
+                        <p><ul id="checkboxTree" class="ztree"  style="height: 320px; overflow:auto;margin-left: 20px"></ul></p>
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left"></div>
+                    <div class="r_right but_p">
+                        <button class="but_previous" type="button" onclick="nextTab(0)">上一步</button>
+                        <button class="but_next" type="button" onclick="nextTab(2)">下一步</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tree_left">
+                <div class="tree_left_top">
+                    <p class="p">
+                        <input type="radio" name="datarange" class="l_left" value="0" onclick="setDateRange()">仅限本人
+                    </p>
+                    <p class="p">
+                        <input type="radio" name="datarange" class="l_left" value="1" onclick="setDateRange()">仅限本部门
+                    </p>
+                    <p class="p">
+                        <input type="radio" name="datarange" class="l_left" value="2" onclick="setDateRange()">本部门以及下属部门
+                    </p>
+                    <div>
+                        <div class="p">
+                            <input type="radio" name="datarange" class="l_left" id="custom_depts" value="3" onclick="setDateRange(3)">自定义设置
+                        </div>
+                        <div class=" order_ztree l_left organize_ztree" id="tree" style="width: 100%;height: 170px;overflow: auto;margin: 20px 0;display: none">
+                            <ul id="userformTree2" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <!--底部按钮-->
+                <div class="notice_bot">
+                    <div class="l_left">
+                        <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+                    </div>
+                    <div class="r_right but_p">
+                        <button class="but_previous" type="button" onclick="nextTab(1)">上一步</button>
+                        <button class="but_save" type="button" onclick="addData()">保存</button>
+                        <button class="but_close" onclick="Colse()">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div th:replace="common/links::common_script"></div>
+    <div th:replace="common/links::table_script"></div>
+    <div th:replace="common/links::ztree_script"></div>
+    <div th:replace="common/links::multiselect_script"></div>
+    <script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/custom/menutree.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/custom/address.js}"></script>
+    <div th:replace="common/links::validate_script"></div>
+    <script>
+        $(function () {
+            // tabNav();
+            $('.multiselect').multiselect({
+                buttonClass: 'btn',
+                buttonWidth: 'auto',
+                buttonText: function(options) {
+                    if (options.length == 0) {
+                        return '请选择角色';
+                    }
+                    else {
+                        var selected = '';
+                        options.each(function() {
+                            selected += $(this).text() + ',';
+                        });
+                        return selected.substr(0, selected.length -1) ;
+                    }
+                },
+            });
+        });
+
+        function setDateRange(type) {
+            if(type == 3){
+                $("#tree").show();
+            }else{
+                $("#tree").hide();
+            }
+        }
+
+        function nextTab(index) {
+            //第一步：校验表单
+            if($("#form").valid()){
+                var count = 0;
+                $(".warrant_nav ul li").each(function(){
+                    if(count == index){
+                        if(index == 2){
+                            //第二步：校验归属部门选中并且把选中值赋予input
+                            var menus = GetCheckedAll("checkboxTree");
+                            if(menus == null || menus == ""){
+                                layer.alert("请选择资源信息！");
+                                return;
+                            }else{
+                                for (var i = 0; i < menus.length; i++) {
+                                    var menu = new Object();
+                                    menu.name = menus[i].name;
+                                    menu.id = menus[i].id;
+                                    menu.pid = menus[i].pid;
+                                    menusArr.push(menu);
+                                }
+                            }
+                        }
+                        $(".warrant_nav ul li").removeClass("warrant_active");
+                        $(this).addClass("warrant_active");
+                        $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+                    }
+                    count++;
+                });
+            }
+        }
+        var formData = $('#form').serializeObject();
+        var menusArr = [];
+        var deptsArr = [];
+        function addData() {
+            //判断deptsArr
+            if($("input[name='datarange']:checked").val() == null){
+                layer.alert("请选择数据权限范围！");
+                return;
+            }else{
+                if($("input[name='datarange']:checked").val() == 3){
+                    var depts = GetCheckedAll("userformTree2");
+                    if(depts == null || depts == ""){
+                        layer.alert("请选择关联部门！");
+                        return;
+                    }else{
+                        for (var i = 0; i < depts.length; i++) {
+                            var dept = new Object();
+                            dept.name = depts[i].name;
+                            dept.id = depts[i].id;
+                            dept.pid = depts[i].pid;
+                            deptsArr.push(dept);
+                        }
+                    }
+                }
+            }
+
+            //重新序列化form
+            formData = $('#form').serializeObject();
+            formData.menus = menusArr;
+            formData.depts = deptsArr;
+
+            var ajaxData = JSON.stringify(formData);
+            console.log("ajaxData.=="+ajaxData);
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: ajaxData,
+                async:true, // 异步请求
+                cache:false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType:"application/json;charset=UTF-8",
+                success: function(res) {
+                    console.log("res.code=="+res.code);
+                    console.log("res=="+JSON.stringify(res));
+                    if (res.code == "0") {
+                        if($("#btn_save_close").is(':checked')){
+                            alert("保存成功",Colse);
+                        }
+                    }else {
+                        layer.alert("["+res.code+"]"+res.msg, {
+                            skin: 'layui-layer-lan'
+                            ,closeBtn: 0
+                        });
+                    }
+                },
+                error: function(e) {
+                    // 请求失败函数
+                    console.log("error:"+JSON.stringify(e));
+                    layer.msg("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }
+
+        function Colse() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
+    </script>
+</body>
+</html>

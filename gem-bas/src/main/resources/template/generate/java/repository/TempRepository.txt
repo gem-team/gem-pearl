@@ -1,0 +1,25 @@
+package ${package}.repository;
+
+import ${package}.model.po.${Entity};
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import java.util.List;
+/**
+ * @Title: ${Entity}Repository.java
+ * @Package: com.gemframework.repository
+ * @Date: ${datetime}
+ * @Version: v1.0
+ * @Description: 这里写描述
+
+ * @Author: ${author}
+ * @Copyright: Copyright (c) 2019 GemStudio
+ * @Company: www.gemframework.com
+ */
+public interface ${Entity}Repository extends JpaRepository<${Entity}, Long> {
+
+    @Query("select ${entity} from ${Entity} ${entity} where id = ?1")
+    ${Entity} getById(Long id);
+
+    @Query("select ${entity} from ${Entity} ${entity} where ${pkName}=?1 and id <> ?2")
+    List<${Entity}> exist(String name, Long id);
+}

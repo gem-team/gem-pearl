@@ -1,0 +1,107 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<head>
+    <link href="css/tree.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="warrant_nav">
+    <ul>
+        <li class="warrant_active"><span class="step">1</span>系统功能<span class="chevron"></span></li>
+        <li><span class="step">2</span>系统按钮<span class="chevron"></span></li>
+        <li><span class="step">3</span>系统视图<span class="chevron"></span></li>
+        <li><span class="step">4</span>数据权限<span class="chevron"></span></li>
+
+    </ul>
+
+    <div class="clear"></div>
+</div>
+
+<div class="warrant_main">
+    <div class="tree_left" style="display: block">
+        <div class="tree_left_top">
+            <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                <p><ul id="treeDemo" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+            </div>
+        </div>
+    </div>
+    <div class="tree_left">
+        <div class="tree_left_top">
+            <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                <p><ul id="treeDemo1" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+            </div>
+        </div>
+    </div>
+    <div class="tree_left">
+        <div class="tree_left_top">
+            <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                <p><ul id="treeDemo2" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+            </div>
+        </div>
+
+    </div>
+    <div class="tree_left last_treeLeft">
+        <p class="p">
+            <input type="radio" name="sex" class="l_left">仅限本人
+        </p>
+        <p class="p">
+            <input type="radio" name="sex" class="l_left">仅限本人及下属
+        </p>
+        <p class="p">
+            <input type="radio" name="sex" class="l_left">所在部门
+        </p>
+        <p class="p">
+            <input type="radio" name="sex" class="l_left">所在公司
+        </p>
+        <div>
+            <div class="p">
+            <input type="radio" name="sex" class="l_left" id="name">自定义设置
+            </div>
+        <div class=" order_ztree l_left organize_ztree" id="tree" style="width: 100%;height: 170px;overflow: auto;margin: 20px 0;display: none">
+        <ul id="treeDemo3" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul>
+        </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+</div>
+
+<div class="notice_bot">
+    <div class="l_left"><input type="checkbox" checked="checked"/>保存并关闭窗口</div>
+    <div class="r_right but_p"><button class="but_save"  onclick="Cancel()">保存</button><button class="but_close" onclick="Cancel()">关闭</button></div>
+</div>
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="js/demo/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exedit-3.5.js"></script>
+<script src="js/organize1.js"></script>
+<script>
+    $(function(){
+        nav();
+        click();
+    });
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+    function nav(){
+        $(".warrant_nav ul li").each(function(index){
+            $(this).click(function(){
+                $(".warrant_nav ul li").removeClass("warrant_active");
+                $(this).addClass("warrant_active");
+                $(".warrant_main .tree_left").eq(index).show().siblings(".tree_left").stop().hide();
+            })
+        })
+    }
+    function click(){
+        $("#name").click(function(){
+            $("#tree").show();
+        })
+    }
+
+</script>
+
+</body>
+</html>

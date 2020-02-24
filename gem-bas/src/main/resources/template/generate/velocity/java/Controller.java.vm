@@ -1,0 +1,101 @@
+package ${package}.${moduleName}.controller;
+
+import ${package}.common.enums.ResultCode;
+import ${package}.model.BaseResultData;
+import ${package}.model.vo.${className}Vo;
+import ${package}.model.vo.response.PageInfo;
+import ${package}.service.${className}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Slf4j
+@Controller
+@RequestMapping("${moduleName}/${pathName}")
+public class ${className}Controller {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    @RequiresPermissions("${moduleName}:${pathName}:list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = ${classname}Service.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+    @GetMapping("list.html")
+    public String list(HttpServletRequest request, Model model){
+        ${classname}Service.findListAll();
+        return "${classname}/list";
+    }
+
+    @GetMapping("add.html")
+    public String add(HttpServletRequest request,Model model){
+        return "${classname}/add";
+    }
+
+
+    @GetMapping("edit.html")
+    public String edit(HttpServletRequest request,Model model, Long id){
+        ${className}Vo vo = ${classname}Service.getById(id);
+        model.addAttribute("editInfo",vo);
+        return "${classname}/edit";
+    }
+
+    @GetMapping("pageByParams")
+    @ResponseBody
+    public BaseResultData pageByParams(${className}Vo vo, Pageable pageable){
+        PageInfo pageInfo =  ${classname}Service.findPageByParams(vo,pageable);
+        return BaseResultData.SUCCESS(pageInfo);
+    }
+
+    @PostMapping("add")
+    @ResponseBody
+    public BaseResultData add(@Valid @RequestBody ${className}Vo vo, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return BaseResultData.ERROR(ResultCode.PARAM_EXCEPTION.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
+        return BaseResultData.SUCCESS(${classname}Service.save(vo));
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public BaseResultData delete(Long id){
+        ${classname}Service.delete(id);
+        return BaseResultData.SUCCESS();
+    }
+
+    @PostMapping("deleteBatch")
+    @ResponseBody
+    public BaseResultData deleteBatch(@RequestBody List<${className}Vo> vos){
+        ${classname}Service.deleteBatch(vos);
+        return BaseResultData.SUCCESS();
+    }
+
+    @GetMapping("getOne")
+    @ResponseBody
+    public BaseResultData get(Long id){
+        return BaseResultData.SUCCESS(${className}Service.getById(id));
+    }
+
+}

@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" class="fullscreen-bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+    <!--css部分-->
+    <div th:fragment="common_links">
+        <!--bootstrap-->
+        <link rel="stylesheet" type="text/css" th:href="@{/static/js/bootstrap/css/bootstrap.min.css}">
+    </div>
+    <div th:fragment="custom_links">
+        <!--自定义-->
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/custom/index.css}">
+    </div>
+
+    <div th:fragment="layui_links">
+        <!--layui css-->
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/layui/css/layui.css}">
+    </div>
+
+    <div th:fragment="checkbox_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/checkbox/build.css}">
+    </div>
+    <div th:fragment="font_links">
+        <!--字体图标-->
+        <!--<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">-->
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/font-awesome-all.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/font-awesome.css}">
+    </div>
+    <!--    table-->
+    <div th:fragment="table_list_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/js/bstable/css/bootstrap-table.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/table.css}">
+    </div>
+    <!--    树形表格-->
+    <div th:fragment="treetable_list_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/js/bstable/css/bootstrap-table.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/table.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/jquery.treetable.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/jquery.treetable.theme.default.css}">
+    </div>
+    <!--    ztree-->
+    <div th:fragment="ztree_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/zTreeStyle/zTreeStyle.css}">
+    </div>
+    <!--    多选-->
+    <div th:fragment="multiselect_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/multiselect/css/bootstrap-multiselect.css}">
+    </div>
+    <!--    tabs-->
+    <div th:fragment="tabs_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/css/tree.css}">
+    </div>
+    <!-- 表单校验提示-->
+    <div th:fragment="validate_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/validate/css/prompt.css}">
+    </div>
+    <!-- 点击出现菜单（右键菜单）-->
+    <div th:fragment="menus_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/css/ionicons.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/css/normalize.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/css/zzsc.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/dist/basicContext.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/dist/themes/default.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/menus/fonts/ionicons.ttf}">
+    </div>
+    <!-- bootstrap-switch-->
+    <div th:fragment="switch_links">
+        <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/bootstrap-switch/css/bootstrap-switch.min.css}">
+    </div>
+
+
+    <!--js部分-->
+    <div th:fragment="common_script">
+        <!--通用-->
+        <script type="text/javascript" th:src="@{/static/js/jquery/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/static/js/bootstrap/js/bootstrap.min.js}"></script>
+        <script type="text/javascript" th:src="@{/static/plugins/layer/layer.js}"></script>
+        <script type="text/javascript" th:src="@{/static/plugins/layer/extend/layer.ext.js}"></script>
+        <script type="text/javascript" th:src="@{/static/js/custom/common.js}"></script>
+        <script type="text/javascript">
+            //定义serializeObject方法，序列化表单
+            $.fn.serializeObject = function() {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function() {
+                    if (o[this.name]) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [ o[this.name] ];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+        </script>
+    </div>
+
+    <!--jquery页面-->
+    <div th:fragment="jquery_script">
+        <script type="text/javascript" th:src="@{/static/js/jquery/jquery.min.js}"></script>
+    </div>
+
+    <!--layui页面-->
+    <div th:fragment="layui_script">
+        <script type="text/javascript" th:src="@{/static/plugins/layui/layui.js}"></script>
+    </div>
+
+    <!--有table页面-->
+    <div th:fragment="table_script">
+        <script type="text/javascript" th:src="@{/static/js/bstable/js/bootstrap-table.js}"></script>
+        <script type="text/javascript" th:src="@{/static/js/bstable/js/bootstrap-table-zh-CN.min.js}"></script>
+    </div>
+    <!--    ztree-->
+    <div th:fragment="ztree_script">
+        <script type="text/javascript" th:src="@{/static/js/demo/jquery.ztree.core-3.5.js}"></script>
+        <script type="text/javascript" th:src="@{/static/js/ztree/jquery.ztree.excheck-3.5.js}"></script>
+        <script type="text/javascript" th:src="@{/static/js/ztree/jquery.ztree.exedit-3.5.js}"></script>
+    </div>
+
+    <!--    多选-->
+    <div th:fragment="multiselect_script">
+        <script type="text/javascript" th:src="@{/static/plugins/multiselect/js/bootstrap-multiselect.js}"></script>
+    </div>
+
+    <!-- 表单校验提示-->
+    <div th:fragment="validate_script">
+        <script type="text/javascript" th:src="@{/static/plugins/validate/js/jquery.validate.min.js}"></script>
+        <script type="text/javascript" th:src="@{/static/plugins/validate/js/messages_zh.min.js}"></script>
+        <script type="text/javascript" th:src="@{/static/plugins/validate/js/prompt.js}"></script>
+    </div>
+
+    <!-- 右键菜单-->
+    <div th:fragment="menus_script">
+        <script type="text/javascript" th:src="@{/static/plugins/menus/dist/basicContext.min.js}"></script>
+    </div>
+
+    <!-- bootstrap-switch-->
+    <div th:fragment="switch_script">
+        <script type="text/javascript" th:src="@{/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+    </div>
+</body>
+</html>

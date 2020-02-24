@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>无标题文档</title>
+    <div th:replace="common/links::common_links"></div>
+    <div th:replace="common/links::custom_links"></div>
+    <div th:replace="common/links::font_links"></div>
+    <div th:replace="common/links::ztree_links"></div>
+    <div th:replace="common/links::multiselect_links"></div>
+    <div th:replace="common/links::tabs_links"></div>
+    <div th:replace="common/links::checkbox_links"></div>
+    <div th:replace="common/links::validate_links"></div>
+</head>
+<body style="border-radius: 8px;width: 400px;overflow: hidden">
+<div>
+    <form id="form" onsubmit="return false">
+        <div class="top">
+            <div>
+                <div class="top_out">
+                    <table class="table">
+                        <tbody>
+                        #foreach($column in $columns)
+                            #if($column.columnName != $pk.columnName)
+                            <tr>
+                                <td>${column.comments}
+                                    <span class="span">*</span></td>
+                                <td>
+                                    <input type="text" id="${column.attrname}" name="${column.attrname}" class="block" required >
+                                </td>
+                            </tr>
+                            #end
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--底部按钮-->
+        <div class="notice_bot">
+            <div class="l_left">
+                <input id="btn_save_close" type="checkbox" checked="checked"/>保存并关闭窗口
+            </div>
+            <div class="r_right but_p">
+                <button class="but_save" type="button" onclick="addData()">保存</button>
+                <button class="but_close" onclick="Colse()">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="common/links::layui_links"></div>
+<div th:replace="common/links::common_script"></div>
+<div th:replace="common/links::table_script"></div>
+<div th:replace="common/links::ztree_script"></div>
+<div th:replace="common/links::multiselect_script"></div>
+<script type="text/javascript" th:src="@{/static/js/custom/ztree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/depttree.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/custom/address.js}"></script>
+<div th:replace="common/links::validate_script"></div>
+<script>
+
+    function addData() {
+        if ($("#form").valid()) {
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: JSON.stringify($('#form').serializeObject()),
+                async: true, // 异步请求
+                cache: false, // 设置为 false 将不缓存此页面
+                dataType: "json", // 返回对象
+                contentType: "application/json;charset=UTF-8",
+                success: function (res) {
+                    if (res.code == "0") {
+                        if ($("#btn_save_close").is(':checked')) {
+                            alert("保存成功", Colse);
+                        }
+                    } else {
+                        layer.alert("[" + res.code + "]" + res.msg, {
+                            skin: 'layui-layer-lan'
+                            , closeBtn: 0
+                            , anim: 4 //动画类型
+                        });
+                    }
+                },
+                error: function (e) {
+                    // 请求失败函数
+                    console.log("error:" + JSON.stringify(e));
+                    alert("操作失败，请检查是否有相关操作权限！");
+                }
+            })
+        }
+    }
+
+    function Colse() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</body>
+</html>

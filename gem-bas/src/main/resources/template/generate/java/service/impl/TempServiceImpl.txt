@@ -1,0 +1,109 @@
+package ${package}.service.impl;
+
+import ${package}.common.enums.ResultCode;
+import ${package}.common.exception.GemException;
+import ${package}.common.utils.GemBeanUtils;
+import ${package}.model.po.${Entity};
+import ${package}.model.vo.${Entity}Vo;
+import ${package}.model.vo.response.PageInfo;
+import ${package}.repository.${Entity}Repository;
+import ${package}.service.${Entity}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class ${Entity}ServiceImpl implements ${Entity}Service {
+
+    @Resource
+    private ${Entity}Repository ${entity}Repository;
+
+    @Override
+    public boolean exist(${Entity}Vo vo) {
+        List<${Entity}> list = ${entity}Repository.exist(vo.get${PkName}(),vo.getId());
+        if(vo.getId() == null){
+            list = ${entity}Repository.exist(vo.get${PkName}(),0L);
+        }
+        if(list != null && list.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ${Entity}Vo save(${Entity}Vo vo) {
+        ${Entity} entity = new ${Entity}();
+        GemBeanUtils.copyProperties(vo,entity);
+        entity = ${entity}Repository.save(entity);
+        GemBeanUtils.copyProperties(entity,vo);
+        return vo;
+    }
+
+    @Override
+    public List<${Entity}Vo> findListAll() {
+        List<${Entity}> list = ${entity}Repository.findAll();
+        List<${Entity}Vo> vos = GemBeanUtils.copyCollections(list,${Entity}Vo.class);
+        return vos;
+    }
+
+    @Override
+    public List<${Entity}Vo> findListByParams(${Entity}Vo vo) {
+        ${Entity} entity = new ${Entity}();
+        GemBeanUtils.copyProperties(vo,entity);
+        List<${Entity}> list = ${entity}Repository.findAll(Example.of(entity));
+        List<${Entity}Vo> vos = GemBeanUtils.copyCollections(list,${Entity}Vo.class);
+        return vos;
+    }
+
+    @Override
+    public PageInfo findPageAll(Pageable pageable) {
+        Page<${Entity}> page = ${entity}Repository.findAll(pageable);
+        PageInfo pageInfo = PageInfo.builder()
+                        .total(page.getTotalElements())
+                        .rows(page.getContent())
+                        .build();
+        return pageInfo;
+}
+
+    @Override
+    public PageInfo findPageByParams(${Entity}Vo vo,Pageable pageable) {
+        ${Entity} entity = new ${Entity}();
+        GemBeanUtils.copyProperties(vo,entity);
+        Page<${Entity}> page = ${entity}Repository.findAll(Example.of(entity),pageable);
+        PageInfo pageInfo = PageInfo.builder()
+                        .total(page.getTotalElements())
+                        .rows(page.getContent())
+                        .build();
+        return pageInfo;
+    }
+
+    @Override
+    public void delete(Long id) {
+        if(!${entity}Repository.existsById(id)){
+            throw new GemException(ResultCode.DATA_NOT_EXIST);
+        }
+        ${entity}Repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteBatch(List<${Entity}Vo> vos) {
+        List<${Entity}> list = GemBeanUtils.copyCollections(vos,${Entity}.class);
+        ${entity}Repository.deleteInBatch(list);
+    }
+
+    @Override
+    public ${Entity}Vo getById(Long id) {
+        ${Entity}Vo vo  = new ${Entity}Vo();
+        ${Entity} entity = ${entity}Repository.getById(id);
+        GemBeanUtils.copyProperties(entity,vo);
+        return vo;
+    }
+}
+

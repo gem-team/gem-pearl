@@ -1,0 +1,172 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+    <title></title>
+    <link href="js/bstable/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="js/bstable/css/bootstrap-table.css" rel="stylesheet" type="text/css">
+    <link href="css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link href="css/table.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="background-color: #ecf0f5;font-family: 微软雅黑;color: #475059;min-width: 1000px;overflow: auto">
+<div class="news_main">
+
+    <div class="l_left news_left">
+
+        <h6>部门目录</h6>
+        <div class="tree_left_top">
+            <div class=" order_ztree l_left organize_ztree" style="width: 100%">
+                <p><ul id="treeDemo" class="ztree"  style=" overflow:auto;margin-left: 20px"></ul></p>
+            </div>
+        </div>
+    </div>
+    <div class="l_left news_right">
+        <h6>用户管理</h6>
+
+        <div class="notice_check">
+            <div class="btn-group l_left" style="margin-right: 4px">
+                <button type="button" class="btn btn-default change" style="height: 30px;line-height: 30px;padding: 0 12px !important;font-size: 12px">选择条件</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 30px;line-height: 30px">
+                    <span class="caret"></span>
+                    <span class="sr-only"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>部门名称</li>
+                    <li>部门编号</li>
+                    <li>负责人</li>
+                    <li>电话号</li>
+                    <li>分机号</li>
+                </ul>
+            </div>
+            <div class="l_left">
+                <input type="text" class="find_input">
+
+            </div>
+            <button class="check_btn">查询</button>
+            <div class="notice_nav r_right">
+                <a class="btn btn-default" onclick="addUser()"><span class="glyphicon glyphicon-plus"></span>新增</a>
+                <a class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>删除</a>
+                <a class="btn btn-default" onclick="addUser()"><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                <a class="btn btn-default" onclick="reset_password()"><span class="glyphicon glyphicon-lock"></span>重置密码</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <ul class="news_table department_table">
+            <li>
+                <table id="table" class="table_style" style="margin: 0 auto" ></table>
+            </li>
+        </ul>
+
+    </div>
+    <div class="clear"></div>
+
+</div>
+<script src="js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="js/bstable/js/bootstrap.min.js"></script>
+<script src="js/bstable/js/bootstrap-table.js"></script>
+<script src="js/bstable/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="js/demo/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/ztree/jquery.ztree.exedit-3.5.js"></script>
+<script src="js/layer_v2.1/layer/layer.js"></script>
+<script src="js/organize.js"></script>
+
+<script>
+    $(function () {
+        change();
+        $('#table').bootstrapTable({
+            method: "get",
+            striped: true,
+            singleSelect: false,
+            url: "json/user.json",
+            dataType: "json",
+            pagination: true, //分页
+            pageSize: 10,
+            pageNumber: 1,
+            search: false, //显示搜索框
+            contentType: "application/x-www-form-urlencoded",
+            queryParams: null,
+            columns: [
+                {
+                    checkbox: "true",
+                    field: 'check',
+                    align: 'center',
+                    valign: 'middle'
+                }
+                ,
+                {
+                    title: "用户名",
+                    field: 'id',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '性别',
+                    field: 'sex',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '年龄',
+                    field: 'date',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '部门',
+                    field: 'person',
+                    align: 'center'
+                },
+                {
+                    title: '职位',
+                    field: 'oper',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '角色',
+                    field: 'title',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    title: '备注',
+                    field: 'person',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+    function change(){
+        $(".dropdown-menu>li").click(function(){
+            $(".change").html($(this).html())
+        })
+    }
+    function addUser(){
+        layer.open({
+            type: 2,
+            title: '添加新用户',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:1,
+            area: ['700px', '474px'],
+            content: 'user_tail.html'
+        });
+    }
+    function reset_password(){
+        layer.open({
+            type: 2,
+            title: '重置密码',
+            shadeClose: true,
+            shade: 0.5,
+            skin: 'layui-layer-rim',
+            closeBtn:1,
+            area: ['500px', '280px'],
+            content: 'user_password.html'
+        });
+    }
+</script>
+</body>
+</html>

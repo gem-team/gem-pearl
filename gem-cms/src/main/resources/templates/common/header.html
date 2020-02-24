@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" class="fullscreen-bg" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页 | GemFrame开源权限管理系统v1.0.0</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+</head>
+
+<body>
+    <!--头部信息-->
+    <header th:fragment="head_navbar" class="main-header">
+        <a href="javascript:location.reload()" class="logo">
+            <span class="logo-mini"><b>P</b>earl</span>
+            <span class="logo-lg">Pearl权限管理系统</span>
+        </a>
+        <nav class="navbar navbar-static-top" data-toggle="push-menu" role="button">
+            <div class="sidebar-toggle">
+                <span class="sr-only">切换导航</span>
+            </div>
+            <span class="index_top"><strong></strong></span>
+            <span>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown notifications-menu" style="min-width:120px;text-align: center">
+                        <a class="menuItem" href="http://www.jd.com">
+                            顶部菜单
+                        </a>
+                    </li>
+                    <li id="top_menu_demo" class="dropdown notifications-menu" style="min-width:120px;text-align: center">
+                        <a target="_blank" class="dropdown-toggle" data-toggle="dropdown" >
+                            二级菜单 <i class="fas fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li>
+                                <a class="menuItem" onclick="layer.tips('Hi，我是顶部菜单示例', '#top_menu_demo');">
+                                    <i class="ace-icon fa fa-th-large"></i>示例菜单一
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menuItem" onclick="layer.tips('Hi，我是顶部菜单示例', '#top_menu_demo');">
+                                    <i class="ace-icon fa fa-th-large"></i>示例菜单二
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                               <a class="menuItem" href="http://www.baidu.com">
+                                    <i class="ace-icon fa fa-th-large"></i>示例菜单三
+                               </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown notifications-menu" style="min-width:120px;text-align: center">
+                        <a target="_blank" class="dropdown-toggle" data-toggle="dropdown">
+                            推广计划 <i class="fas fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li>
+                                <a target="_blank" href="http://www.gemframework.com">
+                                    <i class="fa fa-paw"></i>官方网站
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="http://www.gemframework.com/bbs">
+                                    <i class="fa fa-commenting-o"></i>开源社区
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="http://www.wanyongedu.com">
+                                    <i class="fa fa-graduation-cap"></i>成人学历
+                                    <span style="color: #0aafe6;font-size: 9px">[广告]</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </span>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown notifications-menu">
+                        <a target="_blank" href="https://gitee.com/gemteam/gemframe" class="dropdown-toggle">
+                            <i class="fa fa-git" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown tasks-menu">
+                        <a target="_blank" href="http://www.gemframework.com" class="dropdown-toggle">
+                            <i class="fa fa-diamond" aria-hidden="true"></i>
+                            <span class="label label-warning">6</span>
+                        </a>
+                    </li>
+                    <li class="dropdown messages-menu">
+                        <a target="_blank" href="mailto:gemframe@163.com?subject=[来自Pearl]咨询GemFrame开源框架" >
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span class="label label-success">6</span>
+                        </a>
+                    </li>
+                    <li class="dropdown messages-menu">
+                        <a onclick="getWechat()" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-weixin" aria-hidden="true"></i>
+                            <span class="label label-danger">88</span>
+                        </a>
+                    </li>
+
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="static/img/avatar/user3-160x160.jpg" class="user-image" alt="User Image">
+                            <span class="hidden-xs" th:text="${session.session_username}"></span>
+
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+<!--                            <li>-->
+<!--                                <a class="menuItem" data-id="userInfo" onclick="userinfo()">-->
+<!--                                <i class="fa fa-user"></i>个人信息</a>-->
+<!--                            </li>-->
+<!--                            <li><a><i class="fa fa-trash-o"></i>清空缓存</a></li>-->
+                            <li id="color"><a><i class="fa fa-paint-brush"></i>皮肤设置</a>
+                                <div style="position: absolute;left:-90px;top:0px;border: 1px #eee solid;box-shadow: 0 6px 12px
+                                rgba(0,0,0,.175);display: none" id="color_div">
+                                    <ul class="color_ul">
+                                        <li style="background-color: #337ab7;color:#337ab7"></li>
+                                        <li style="background-color: #a92626;color: #3c8dbc"></li>
+                                        <li style="background-color: #421a70;color: red"></li>
+                                        <li style="background-color: #d6443a;color:green"></li>
+                                        <li style="background-color: #167ae0;color: #3c8dbc"></li>
+                                        <li style="background-color: #222d32;color: red"></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <script src="static/js/jquery/jQuery-2.2.0.min.js"></script>
+                            <style>
+                            </style>
+                            <li class="divider"></li>
+                            <li><a th:href="@{/logout}"><i class="ace-icon fa fa-power-off"></i>安全退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+</body>
+</html>

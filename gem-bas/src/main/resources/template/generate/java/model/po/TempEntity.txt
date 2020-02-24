@@ -1,0 +1,30 @@
+package com.gemframework.model.po;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+import javax.persistence.*;
+
+import java.util.*;
+
+@Entity
+@Table(name = "${tableNamePerfix}_${entity}")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class ${Entity} extends BasePo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    ${foreignAttr};
+
+    @Column(columnDefinition = "${attrType}(${maxLength}) ${isNull_1} ${default} comment '${comment}'", ${isNull_2})
+    ${jsonFormat}
+    private String ${attrNameEn};
+
+    ${transientAttr}
+
+}

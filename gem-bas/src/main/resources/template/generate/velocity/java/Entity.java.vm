@@ -1,0 +1,37 @@
+package ${package}.${moduleName}.entity;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Entity
+@Table(name = "${tableName}")
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class ${className} extends BasePo {
+	private static final long serialVersionUID = 1L;
+
+	#foreach ($column in $columns)
+		/**
+		 * $column.comments
+		 */
+		#if($column.columnName == $pk.columnName)
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		#end
+		@Column(columnDefinition = "$column.attrType comment '$column.comments'")
+		private $column.attrType $column.attrname;
+	#end
+}

@@ -1,0 +1,95 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="css/tail.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .top select,.top input[type=text],.top input[type=password],.top input[type=email]{text-align: left;width: 247px;height:28px;border-radius: 4px;font-size: 12px;border: 1px #ccc solid}
+        .top td textarea{width: 586px;height: 70px;resize: none;border-radius: 4px;border: 1px #ccc solid}
+    </style>
+</head>
+
+<body style="border-radius: 8px;width: 680px">
+<form>
+<div class="top">
+    <div>
+        <div class="top_out">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>上级部门<span>*</span></td>
+                    <td>
+                        <select>
+                            <option>成都分公司</option>
+                            <option>成都分公司</option>
+                            <option>杭州总部</option>
+                        </select>
+                    </td>
+                    <td>负责人<span>*</span></td>
+                    <td>
+                        <select>
+                            <option>全部</option>
+                            <option>Java工程师</option>
+                            <option>前端工程师</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>部门名称<span>*</span></td>
+                    <td>
+                    <input type="text" required>
+                    </td>
+                    <td>部门编号<span>*</span></td>
+                    <td>
+                    <input type="text" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>部门简称<span></span></td>
+                    <td><input type="text"></td>
+                    <td>部门性质<span></span></td>
+                    <td>
+                        <select>
+                            <option>--请选择--</option>
+                            <option>综合性</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>电话号<span></span></td>
+                    <td><input type="text"></td>
+                    <td>分机号<span></span></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>邮箱<span></span></td>
+                    <td><input type="email"></td>
+                    <td>传真<span></span></td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>备注<span></span></td>
+                    <td colspan = "8" style="text-align: left"><textarea></textarea></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="notice_bot">
+        <div class="l_left"><input type="checkbox" checked="checked"/>保存并关闭窗口</div>
+        <div class="r_right but_p"><button class="but_save">保存</button><button class="but_close" onclick="Cancel()">关闭</button></div>
+    </div>
+</div>
+</form>
+</body>
+<script src="js/jquery-2.2.0.min.js"></script>
+<script>
+    function Cancel() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>
+</html>
